@@ -18,10 +18,11 @@ URL real desde la que se consulta (https://TU-SERVICIO.onrender.com en Render,
 http://localhost:5000 en tu PC). Opcional: define BASE_URL para forzarla.
 ==================================================*/
 const URL_LOCAL = 'http://localhost:5000';
+const URL_PUBLICA = (process.env.BASE_URL || 'https://complexlab-servidor.onrender.com')
+    .replace(/\/+$/, '');
 
 app.use((req, res, next) => {
-    const base = (process.env.BASE_URL || `${req.protocol}://${req.get('host')}`)
-        .replace(/\/+$/, '');
+    const base = URL_PUBLICA;
     const enviarOriginal = res.send.bind(res);
 
     res.send = (cuerpo) => {
@@ -58,6 +59,39 @@ app.use('/juegos/cauchy', express.static(path.join(__dirname, 'simulaciones', 'c
 app.use('/juegos/mapeos', express.static(path.join(__dirname, 'simulaciones', 'mapeos')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
 
+// Diagnóstico: permite identificar en los logs de Render si una ruta de juego
+// llega al servidor y qué archivo está solicitando el iframe.
+app.use('/juegos', (req, res, next) => {
+    console.log(`[JUEGOS] ${req.method} ${req.originalUrl}`);
+    next();
+});
+
+
+/*==================================================
+VERIFICACIÓN DE ARCHIVOS DE SIMULACIONES
+==================================================*/
+const juegosPublicados = {
+    cazador: path.join(__dirname, 'simulaciones', 'cazador-complejo', 'index.html'),
+    residuo: path.join(__dirname, 'simulaciones', 'residuo', 'index.html'),
+    raicesypotencias: path.join(__dirname, 'simulaciones', 'raicesypotencias', 'index.html'),
+    armonicos: path.join(__dirname, 'simulaciones', 'armonicos', 'index.html'),
+    mapeos: path.join(__dirname, 'simulaciones', 'mapeos', 'index.html'),
+    cauchy: path.join(__dirname, 'simulaciones', 'cauchy', 'index.html')
+};
+
+app.get('/api/diagnostico-juegos', (req, res) => {
+    const estado = Object.entries(juegosPublicados).map(([id, archivo]) => ({
+        id,
+        disponible: fs.existsSync(archivo),
+        ruta: path.relative(__dirname, archivo).replace(/\\\\/g, '/')
+    }));
+
+    res.json({
+        servidor: 'COMPLEXLAB API',
+        baseUrl: URL_PUBLICA,
+        juegos: estado
+    });
+});
 
 /*==================================================
 CONFIGURACIÓN
@@ -132,32 +166,32 @@ app.get('/api/simulaciones', (req, res) => {
 ENDPOINTS: INCRUSTAR JUEGOS (EVITA REDIRECCIONES)
 ==================================================*/
 app.get('/api/cargar-juego/cazador', (req, res) => {
-    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/cazador/index.html" style="width: 100%; height: 100%; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
+    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/cazador/index.html" title="Simulación cazador" loading="eager" allow="fullscreen; autoplay" style="width: 100%; height: 100%; min-height: 650px; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
     res.json({ cssUrl: '', html: htmlIncrustado });
 });
 
 app.get('/api/cargar-juego/residuo', (req, res) => {
-    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/residuo/index.html" style="width: 100%; height: 100%; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
+    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/residuo/index.html" title="Simulación residuo" loading="eager" allow="fullscreen; autoplay" style="width: 100%; height: 100%; min-height: 650px; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
     res.json({ cssUrl: '', html: htmlIncrustado });
 });
 
 app.get('/api/cargar-juego/raicesypotencias', (req, res) => {
-    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/raicesypotencias/index.html" style="width: 100%; height: 100%; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
+    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/raicesypotencias/index.html" title="Simulación raicesypotencias" loading="eager" allow="fullscreen; autoplay" style="width: 100%; height: 100%; min-height: 650px; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
     res.json({ cssUrl: '', html: htmlIncrustado });
 });
 
 app.get('/api/cargar-juego/armonicos', (req, res) => {
-    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/armonicos/index.html" style="width: 100%; height: 100%; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
+    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/armonicos/index.html" title="Simulación armonicos" loading="eager" allow="fullscreen; autoplay" style="width: 100%; height: 100%; min-height: 650px; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
     res.json({ cssUrl: '', html: htmlIncrustado });
 });
 
 app.get('/api/cargar-juego/mapeos', (req, res) => {
-    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/mapeos/index.html" style="width: 100%; height: 100%; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
+    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/mapeos/index.html" title="Simulación mapeos" loading="eager" allow="fullscreen; autoplay" style="width: 100%; height: 100%; min-height: 650px; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
     res.json({ cssUrl: '', html: htmlIncrustado });
 });
 
 app.get('/api/cargar-juego/cauchy', (req, res) => {
-    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/cauchy/index.html" style="width: 100%; height: 100%; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
+    const htmlIncrustado = '<div class="contenedor-juego-flotante" style="width: 100%; height: calc(100vh - 60px); display: flex; box-sizing: border-box; padding: 10px;"><iframe src="http://localhost:5000/juegos/cauchy/index.html" title="Simulación cauchy" loading="eager" allow="fullscreen; autoplay" style="width: 100%; height: 100%; min-height: 650px; border: none; border-radius: 15px; background: transparent;"></iframe></div>';
     res.json({ cssUrl: '', html: htmlIncrustado });
 });
 
@@ -684,6 +718,12 @@ app.get('/api/mi-progreso', (req, res) => {
             html: html
         });
     });
+});
+
+// Reportar claramente recursos de juegos inexistentes (JS, CSS, imágenes, etc.).
+app.use('/juegos', (req, res) => {
+    console.error(`[JUEGOS 404] No existe el recurso: ${req.originalUrl}`);
+    res.status(404).type('text/plain').send(`No se encontró el recurso de simulación: ${req.originalUrl}`);
 });
 
 /*==================================================
