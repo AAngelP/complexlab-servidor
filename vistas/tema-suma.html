@@ -1,0 +1,107 @@
+<div class="contenedor-explicacion layout-split">
+    <div class="panel-teorico">
+        <div class="alineacion-izquierda">
+            <button class="btn-regresar-interna" onclick="regresarAlasTarjetas()">← Volver a Temas</button>
+        </div>
+        <h2>Suma en el Plano Complejo</h2>
+        
+        <div class="bloque-requisito">
+            <h5>Conocimientos Previos</h5>
+            <ul>
+                <li>
+                    Identificar parte Real e Imaginaria: 
+                    <!-- z = Re(z) + Im(z)i en HTML nativo -->
+                    <i>z</i> = Re(<i>z</i>) + Im(<i>z</i>)<i>i</i>
+                </li>
+                <li>
+                    Operaciones algebraicas vectoriales básicas en el espacio 
+                    <!-- R^2 con tipografía matemática estándar -->
+                    <span style="font-family: 'Times New Roman', Times, serif; font-size: 1.15em;">ℝ<sup>2</sup></span>
+                </li>
+            </ul>
+        </div>
+
+        <p class="parrafo-teoria">
+            La operación de adición combina estructuras de forma lineal independiente. Si definimos 
+            <i>z</i><sub>1</sub> = <i>a</i> + <i>b</i><i>i</i> y 
+            <i>z</i><sub>2</sub> = <i>c</i> + <i>d</i><i>i</i>, su ley operativa se unifica como:
+        </p>
+
+        <!-- Fórmula principal en MathML (Procesado nativamente por el navegador) -->
+        <div class="formula" style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+            <math display="block">
+                <msub><mi>z</mi><mn>1</mn></msub>
+                <mo>+</mo>
+                <msub><mi>z</mi><mn>2</mn></msub>
+                <mo>=</mo>
+                <mo>(</mo><mi>a</mi><mo>+</mo><mi>c</mi><mo>)</mo>
+                <mo>+</mo>
+                <mo>(</mo><mi>b</mi><mo>+</mo><mi>d</mi><mo>)</mo>
+                <mi>i</mi>
+            </math>
+        </div>
+    </div>
+
+    <div class="panel-ejemplos">
+        <h3>Casos de Estudio Interactivos</h3>
+        
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 1: Componentes Enteras Positivas ▾</div>
+            <div class="acordeon-body">
+                <p>Sean <i>z</i><sub>1</sub> = 3 + 4<i>i</i> y <i>z</i><sub>2</sub> = 2 + <i>i</i>.</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mi>z</mi><mn>1</mn></msub>
+                        <mo>+</mo>
+                        <msub><mi>z</mi><mn>2</mn></msub>
+                        <mo>=</mo>
+                        <mo>(</mo><mn>3</mn><mo>+</mo><mn>2</mn><mo>)</mo>
+                        <mo>+</mo>
+                        <mo>(</mo><mn>4</mn><mo>+</mo><mn>1</mn><mo>)</mo>
+                        <mi>i</mi>
+                        <mo>=</mo>
+                        <mn>5</mn>
+                        <mo>+</mo>
+                        <mn>5</mn>
+                        <mi>i</mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 2: Cancelación por Signos Mixtos ▾</div>
+            <div class="acordeon-body">
+                <p>Sean <i>z</i><sub>1</sub> = -5 + 2<i>i</i> y <i>z</i><sub>2</sub> = 5 - 7<i>i</i>.</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mi>z</mi><mn>1</mn></msub>
+                        <mo>+</mo>
+                        <msub><mi>z</mi><mn>2</mn></msub>
+                        <mo>=</mo>
+                        <mo>(</mo><mo>-</mo><mn>5</mn><mo>+</mo><mn>5</mn><mo>)</mo>
+                        <mo>+</mo>
+                        <mo>(</mo><mn>2</mn><mo>-</mo><mn>7</mn><mo>)</mo>
+                        <mi>i</mi>
+                        <mo>=</mo>
+                        <mn>0</mn>
+                        <mo>-</mo>
+                        <mn>5</mn>
+                        <mi>i</mi>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mn>5</mn>
+                        <mi>i</mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tu función original queda limpia y sin dependencias externas
+    function toggleAcordeon(elemento) {
+        elemento.classList.toggle('abierto');
+    }
+</script>

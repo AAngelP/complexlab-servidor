@@ -1,0 +1,110 @@
+<section class="progreso-page">
+    <div class="progreso-contenedor">
+        <div class="progreso-header">
+            <button class="btn-volver-progreso" onclick="volverAlInicio()">← Volver al inicio</button>
+            <div class="progreso-titulo">
+                <h1>Mi Progreso Académico</h1>
+                <p id="subtitulo-usuario">Historial de evaluaciones guardadas</p>
+            </div>
+            <button id="btn-limpiar-historial" class="btn-limpiar">Borrar historial</button>
+        </div>
+
+        <!-- Resumen rápido -->
+        <div class="progreso-stats">
+            <div class="stat-card">
+                <span class="stat-label">Intentos guardados</span>
+                <strong id="stat-intentos" class="stat-valor">0</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Promedio general</span>
+                <strong id="stat-promedio" class="stat-valor">0.0 / 10</strong>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Mejor calificación</span>
+                <strong id="stat-mejor" class="stat-valor">0 / 10</strong>
+            </div>
+        </div>
+
+        <!-- Grid donde se dibujan las tarjetas de cada intento -->
+        <div id="grid-tarjetas-progreso" class="grid-progreso"></div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        const usuario = sessionStorage.getItem('complexlab_usuario');
+        const subtitulo = document.getElementById('subtitulo-usuario');
+        const grid = document.getElementById('grid-tarjetas-progreso');
+
+        if (!usuario) {
+            grid.innerHTML = '<p class="vacio-msg">Inicia sesión para visualizar tu progreso.</p>';
+            return;
+        }
+
+        subtitulo.textContent = `Estudiante: ${usuario}`;
+        const claveStorage = `complexlab_progreso_${usuario}`;
+
+        function renderizarProgreso() {
+            const registros = JSON.parse(localStorage.getItem(claveStorage) || '[]');
+
+            document.getElementById('stat-intentos').textContent = registros.length;
+
+            if (registros.length === 0) {
+                document.getElementById('stat-promedio').textContent = '0.0 / 10';
+                document.getElementById('stat-mejor').textContent = '0 / 10';
+                grid.innerHTML = `
+                    <div class="tarjeta-vacia">
+                        <h3>Aún no tienes resultados guardados</h3>
+                        <p>Completa un examen de Álgebra Compleja y presiona <strong>"Guardar puntuación"</strong> para registrar tu avance aquí.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const suma = registros.reduce((acc, item) => acc + item.puntuacion, 0);
+            const promedio = (suma / registros.length).toFixed(1);
+            const mejor = Math.max(...registros.map(item => item.puntuacion));
+
+            document.getElementById('stat-promedio').textContent = `${promedio} / 10`;
+            document.getElementById('stat-mejor').textContent = `${mejor} / 10`;
+
+            grid.innerHTML = registros.map((item, idx) => {
+                const numeroIntento = registros.length - idx;
+                let claseColor = 'nivel-verde';
+                let estadoTexto = 'Excelente dominio';
+
+                if (item.puntuacion < 6) {
+                    claseColor = 'nivel-rojo';
+                    estadoTexto = 'Requiere repaso';
+                } else if (item.puntuacion <= 7) {
+                    claseColor = 'nivel-amarillo';
+                    estadoTexto = 'Buen desempeño';
+                }
+
+                return `
+                    <div class="tarjeta-intento ${claseColor}">
+                        <div class="intento-top">
+                            <span class="badge-intento">Intento #${numeroIntento}</span>
+                            <span class="fecha-intento">${item.fecha}</span>
+                        </div>
+                        <h3>${item.modulo}</h3>
+                        <div class="calificacion-box">
+                            <span class="nota-grande">${item.puntuacion}</span>
+                            <span class="nota-total">/ ${item.total}</span>
+                        </div>
+                        <p class="estado-texto">${estadoTexto}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('btn-limpiar-historial').addEventListener('click', () => {
+            if (confirm('¿Seguro que deseas borrar todo tu historial de intentos?')) {
+                localStorage.removeItem(claveStorage);
+                renderizarProgreso();
+            }
+        });
+
+        renderizarProgreso();
+    })();
+</script>

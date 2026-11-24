@@ -1,0 +1,464 @@
+
+examen-integracion.js
+
+(function () {
+    "use strict";
+
+    const TOTAL_PREGUNTAS = 10;
+    let preguntas = [];
+    let examenEvaluado = false;
+    let puntuacion = 0;
+
+    function aleatorio(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function elegir(arreglo) {
+        return arreglo[aleatorio(0, arreglo.length - 1)];
+    }
+
+    function mezclar(arreglo) {
+        return arreglo
+            .map(valor => ({ valor, orden: Math.random() }))
+            .sort((a, b) => a.orden - b.orden)
+            .map(el => el.valor);
+    }
+
+    function sinDuplicados(arreglo) {
+        return [...new Set(arreglo)];
+    }
+
+    function escaparHTML(texto) {
+        return String(texto)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function normalizar(texto) {
+        return String(texto).replace(/\s+/g, "").replace(/−/g, "-");
+    }
+
+    function formatoPiI(coef) {
+        if (coef === 0) return "0";
+        if (coef === 1) return "πi";
+        if (coef === -1) return "-πi";
+        return `${coef}πi`;
+    }
+
+    function generarIntegralContornoBasica() {
+        const k = elegir([-4, -3, -2, 2, 3, 4, 5]);
+        const n = elegir([1, 2, 3]);
+        const z0 = elegir([1, 2, 3]);
+
+        const correcta = n === 1 ? formatoPiI(2 * k) : "0";
+        const opciones = mezclar([
+            correcta,
+            n === 1 ? "0" : formatoPiI(2 * k),
+            formatoPiI(k),
+            formatoPiI(-2 * k)
+        ]);
+
+        const denom = n === 1 ? `(z - ${z0})` : `(z - ${z0})^${n}`;
+
+        return {
+            tipo: "Bases de Integración Compleja",
+            enunciado: `Evalúa la integral sobre el contorno cerrado positivo C: |z - ${z0}| = 1:`,
+            expresion: `∮_C [ ${k} / ${denom} ] dz`,
+            correcta,
+            opciones
+        };
+    }
+
+    function generarAcotacionML() {
+        const R = elegir([2, 3, 4]);
+        const k = elegir([4, 6, 8, 12]);
+        const correcta = k % R === 0 ? `${k / R}π` : `${k}π/${R}`;
+        let opciones = sinDuplicados([
+            correcta,
+            `${k * R}π`,
+            `${k}π/${R * R}`,
+            `${2 * k}π/${R}`
+        ]);
+
+        while (opciones.length < 4) {
+            opciones.push(`${aleatorio(2, 9)}π`);
+            opciones = sinDuplicados(opciones);
+        }
+
+        return {
+            tipo: "Acotación por Desigualdad ML",
+            enunciado: `Halla la cota superior ML para |∫_C (${k} / z²) dz| donde C es la semicircunferencia superior |z| = ${R}:`,
+            expresion: `|∫_C f(z) dz| ≤ M · L   (L = πR)`,
+            correcta,
+            opciones: mezclar(opciones)
+        };
+    }
+
+    function generarCauchyGoursatFuera() {
+        const R = elegir([1, 2, 3]);
+        const polo = R + elegir([2, 3, 4]);
+
+        const correcta = "0";
+        const opciones = mezclar([
+            "0",
+            formatoPiI(2),
+            formatoPiI(2 * polo),
+            formatoPiI(-2)
+        ]);
+
+        return {
+            tipo: "Teorema de Cauchy-Goursat",
+            enunciado: `Evalúa la integral cerrada sobre C: |z| = ${R} (sentido antihorario):`,
+            expresion: `∮_C [ e^z / (z - ${polo}) ] dz`,
+            correcta,
+            opciones
+        };
+    }
+    function generarFormulaCauchySimple() {
+        const a = elegir([-3, -2, 2, 3]);
+        const b = elegir([-4, -1, 1, 4]);
+        const z0 = elegir([-2, -1, 1, 2]);
+
+        const fz0 = a * z0 + b;
+        const correcta = formatoPiI(2 * fz0);
+
+        let opciones = sinDuplicados([
+            correcta,
+            formatoPiI(fz0),
+            formatoPiI(-2 * fz0),
+            "0"
+        ]);
+
+        while (opciones.length < 4) {
+            opciones.push(formatoPiI(2 * (fz0 + elegir([-2, 2, 3]))));
+            opciones = sinDuplicados(opciones);
+        }
+
+        const signoB = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+        const factorDen = z0 >= 0 ? `(z - ${z0})` : `(z + ${Math.abs(z0)})`;
+
+        return {
+            tipo: "Fórmula Integral de Cauchy",
+            enunciado: "Aplica la Fórmula Integral de Cauchy sobre el círculo C: |z| = 3 (antihorario):",
+            expresion: `∮_C [ (${a}z ${signoB}) / ${factorDen} ] dz`,
+            correcta,
+            opciones: mezclar(opciones)
+        };
+    }
+
+    function generarFormulaCauchyDerivada() {
+        const m = elegir([2, 3, 4]);
+        const z0 = elegir([-1, 1, 2]);
+
+        const fPrima = m * Math.pow(z0, m - 1);
+        const correcta = formatoPiI(2 * fPrima);
+
+        let opciones = sinDuplicados([
+            correcta,
+            formatoPiI(2 * Math.pow(z0, m)),
+            formatoPiI(fPrima),
+            "0"
+        ]);
+
+        while (opciones.length < 4) {
+            opciones.push(formatoPiI(2 * (fPrima + elegir([-3, 3, 4]))));
+            opciones = sinDuplicados(opciones);
+        }
+
+        const factorDen = z0 >= 0 ? `(z - ${z0})²` : `(z + ${Math.abs(z0)})²`;
+
+        return {
+            tipo: "Fórmula de Cauchy para Derivadas",
+            enunciado: "Evalúa la integral sobre C: |z| = 3 utilizando derivadas de orden superior:",
+            expresion: `∮_C [ z^${m} / ${factorDen} ] dz`,
+            correcta,
+            opciones: mezclar(opciones)
+        };
+    }
+
+    function generarCalculoResiduo() {
+        const caso = aleatorio(1, 2);
+
+        if (caso === 1) {
+            const p1 = elegir([1, 2, 3]);
+            const p2 = elegir([-2, -1]);
+            const a = elegir([2, 3, 4]);
+            const b = a * (p1 - p2) - a * p1;
+            const res = (a * p1 + b) / (p1 - p2);
+
+            const correcta = `${res}`;
+            let opciones = sinDuplicados([
+                correcta,
+                `${-res}`,
+                `${a * p1 + b}`,
+                `${res + 2}`
+            ]);
+
+            while (opciones.length < 4) {
+                opciones.push(`${aleatorio(-6, 8)}`);
+                opciones = sinDuplicados(opciones);
+            }
+
+            const signoB = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+            return {
+                tipo: "Cálculo de Residuos (Polo Simple)",
+                enunciado: `Calcula el residuo Res(f, ${p1}) de la siguiente función:`,
+                expresion: `f(z) = (${a}z ${signoB}) / [(z - ${p1})(z + ${Math.abs(p2)})]`,
+                correcta,
+                opciones: mezclar(opciones)
+            };
+        } else {
+            const k = elegir([2, 3, 4, 5]);
+            const correcta = `${k}`;
+            const opciones = mezclar([
+                correcta,
+                "0",
+                "1",
+                `${(k * k) / 2}`
+            ]);
+            return {
+                tipo: "Singularidad Esencial y Serie de Laurent",
+                enunciado: "A partir del desarrollo de Laurent alrededor de z₀ = 0, obtén Res(f, 0):",
+                expresion: `f(z) = e^(${k}/z)`,
+                correcta,
+                opciones
+            };
+        }
+    }
+
+    function generarTeoremaResiduoDosPolos() {
+        const a = elegir([3, 6, 9, 12]);
+        const correcta = formatoPiI(2 * a);
+
+        let opciones = sinDuplicados([
+            correcta,
+            "0",
+            formatoPiI(a),
+            formatoPiI(-2 * a)
+        ]);
+
+        while (opciones.length < 4) {
+            opciones.push(formatoPiI(2 * (a + elegir([-2, 2, 3]))));
+            opciones = sinDuplicados(opciones);
+        }
+
+        return {
+            tipo: "Teorema del Residuo de Cauchy",
+            enunciado: "Evalúa la integral sobre el contorno cerrado positivo C: |z| = 4 (contiene ambos polos):",
+            expresion: `∮_C [ ${a}z / ((z - 1)(z + 2)) ] dz`,
+            correcta,
+            opciones: mezclar(opciones)
+        };
+    }
+    function generarExamen() {
+        const generadores = [
+            generarIntegralContornoBasica,
+            generarAcotacionML,
+            generarCauchyGoursatFuera,
+            generarFormulaCauchySimple,
+            generarFormulaCauchySimple,
+            generarFormulaCauchyDerivada,
+            generarFormulaCauchyDerivada,
+            generarCalculoResiduo,
+            generarCalculoResiduo,
+            generarTeoremaResiduoDosPolos
+        ];
+
+        preguntas = mezclar(generadores.map(gen => gen()));
+        examenEvaluado = false;
+        puntuacion = 0;
+        renderizarExamen();
+    }
+
+    function renderizarExamen() {
+        const contenedor = document.getElementById("contenedorPreguntas");
+        contenedor.innerHTML = "";
+
+        preguntas.forEach((pregunta, indice) => {
+            const tarjeta = document.createElement("div");
+            tarjeta.className = "tarjeta-pregunta";
+            tarjeta.dataset.numero = indice;
+
+            const opciones = pregunta.opciones.map((opcion, idxOp) => {
+                const letra = String.fromCharCode(65 + idxOp);
+                return `
+                    <label class="opcion-respuesta">
+                        <input type="radio" name="pregunta-${indice}" value="${escaparHTML(opcion)}">
+                        <span class="letra-opcion">${letra}</span>
+                        <span>${escaparHTML(opcion)}</span>
+                    </label>
+                `;
+            }).join("");
+
+            tarjeta.innerHTML = `
+                <div>
+                    <span class="numero-pregunta">${indice + 1}</span>
+                    <span class="texto-pregunta">${escaparHTML(pregunta.enunciado)}</span>
+                </div>
+                <div class="tipo-pregunta">${escaparHTML(pregunta.tipo)}</div>
+                <div class="expresion-matematica">${escaparHTML(pregunta.expresion)}</div>
+                <div class="opciones-pregunta">${opciones}</div>
+            `;
+            contenedor.appendChild(tarjeta);
+        });
+
+        agregarEventosOpciones();
+        actualizarProgreso();
+    }
+
+    function agregarEventosOpciones() {
+        document.querySelectorAll(".opcion-respuesta").forEach(opcion => {
+            opcion.addEventListener("click", () => {
+                if (examenEvaluado) return;
+                const tarjeta = opcion.closest(".tarjeta-pregunta");
+                tarjeta.querySelectorAll(".opcion-respuesta").forEach(otra => otra.classList.remove("seleccionada"));
+                opcion.classList.add("seleccionada");
+                opcion.querySelector("input").checked = true;
+                actualizarProgreso();
+            });
+        });
+    }
+
+    function actualizarProgreso() {
+        let respondidas = 0;
+        for (let i = 0; i < TOTAL_PREGUNTAS; i++) {
+            if (document.querySelector(`input[name="pregunta-${i}"]:checked`)) respondidas++;
+        }
+        const porcentaje = (respondidas / TOTAL_PREGUNTAS) * 100;
+        document.getElementById("contadorPregunta").textContent = `${respondidas} de ${TOTAL_PREGUNTAS} respondidas`;
+        document.getElementById("barraProgreso").style.width = `${porcentaje}%`;
+    }
+
+    function evaluarExamen() {
+        if (examenEvaluado) return;
+        let sinResponder = 0;
+        preguntas.forEach((_, i) => {
+            if (!document.querySelector(`input[name="pregunta-${i}"]:checked`)) sinResponder++;
+        });
+        if (sinResponder > 0) {
+            alert(`Aún tienes ${sinResponder} pregunta(s) sin responder.`);
+            return;
+        }
+
+        puntuacion = 0;
+        preguntas.forEach((pregunta, indice) => {
+            const tarjeta = document.querySelector(`.tarjeta-pregunta[data-numero="${indice}"]`);
+            const seleccionada = tarjeta.querySelector("input:checked");
+            tarjeta.querySelectorAll(".opcion-respuesta").forEach(opcion => {
+                const valor = opcion.querySelector("input").value;
+                opcion.classList.remove("correcta", "incorrecta");
+                if (normalizar(valor) === normalizar(pregunta.correcta)) {
+                    opcion.classList.add("correcta");
+                }
+            });
+
+            if (normalizar(seleccionada.value) === normalizar(pregunta.correcta)) {
+                puntuacion++;
+            } else {
+                seleccionada.closest(".opcion-respuesta").classList.add("incorrecta");
+            }
+        });
+
+        examenEvaluado = true;
+        document.querySelectorAll(".opcion-respuesta input").forEach(input => input.disabled = true);
+        mostrarResultado();
+    }
+
+    function mostrarResultado() {
+        const modal = document.getElementById("modalResultado");
+        const contenido = document.getElementById("resultadoContenido");
+        const puntuacionElemento = document.getElementById("puntuacionFinal");
+        const mensaje = document.getElementById("mensajeResultado");
+
+        contenido.classList.remove("resultado-rojo", "resultado-amarillo", "resultado-verde");
+        if (puntuacion < 6) {
+            contenido.classList.add("resultado-rojo");
+            mensaje.textContent = "Necesitas repasar la Fórmula Integral de Cauchy y el cálculo de residuos.";
+        } else if (puntuacion <= 7) {
+            contenido.classList.add("resultado-amarillo");
+            mensaje.textContent = "Buen trabajo. Revisa los polos interiores y el orden de derivación.";
+        } else {
+            contenido.classList.add("resultado-verde");
+            mensaje.textContent = "¡Excelente trabajo! Dominas la Integración Compleja y el Teorema del Residuo.";
+        }
+
+        puntuacionElemento.textContent = `${puntuacion}/10`;
+        modal.classList.add("visible");
+    }
+
+    function mostrarRespuestas() {
+        const resumen = document.getElementById("resumenRespuestas");
+        resumen.innerHTML = "";
+        preguntas.forEach((pregunta, indice) => {
+            const tarjeta = document.querySelector(`.tarjeta-pregunta[data-numero="${indice}"]`);
+            const seleccionada = tarjeta.querySelector("input:checked");
+            const respuestaUsuario = seleccionada ? seleccionada.value : "Sin responder";
+            const correcta = seleccionada && normalizar(seleccionada.value) === normalizar(pregunta.correcta);
+
+            const bloque = document.createElement("div");
+            bloque.className = correcta ? "resumen-pregunta correcta" : "resumen-pregunta incorrecta";
+            bloque.innerHTML = `
+                <h4>Pregunta ${indice + 1}</h4>
+                <p><strong>Tipo:</strong> ${escaparHTML(pregunta.tipo)}</p>
+                <p>${escaparHTML(pregunta.enunciado)}</p>
+                <div class="expresion-matematica">${escaparHTML(pregunta.expresion)}</div>
+                <p class="${correcta ? "respuesta-correcta" : "respuesta-usuario"}">Tu respuesta: ${escaparHTML(respuestaUsuario)}</p>
+                <p class="respuesta-correcta">Respuesta correcta: ${escaparHTML(pregunta.correcta)}</p>
+            `;
+            resumen.appendChild(bloque);
+        });
+        document.getElementById("modalResultado").classList.remove("visible");
+        document.getElementById("modalRespuestas").classList.add("visible");
+    }
+
+    function regresarResultado() {
+        document.getElementById("modalRespuestas").classList.remove("visible");
+        document.getElementById("modalResultado").classList.add("visible");
+    }
+
+    function nuevoExamen() {
+        document.getElementById("modalResultado").classList.remove("visible");
+        generarExamen();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function regresarIntegracion() {
+        try {
+            const respuesta = await fetch("http://localhost:5000/api/variable-compleja/integracion");
+            const datos = await respuesta.json();
+            const heroContent = document.querySelector(".hero-content");
+
+            const cssAnterior = document.getElementById("css-dinamico");
+            if (cssAnterior) cssAnterior.remove();
+
+            const css = document.createElement("link");
+            css.id = "css-dinamico";
+            css.rel = "stylesheet";
+            css.href = datos.cssUrl;
+            document.head.appendChild(css);
+
+            heroContent.innerHTML = datos.html;
+            heroContent.querySelectorAll("script").forEach(scriptViejo => {
+                const scriptNuevo = document.createElement("script");
+                scriptNuevo.text = scriptViejo.text;
+                document.body.appendChild(scriptNuevo);
+                scriptNuevo.remove();
+            });
+        } catch (error) {
+            console.error("Error al regresar a Integración:", error);
+        }
+    }
+
+    document.getElementById("btnEvaluar").addEventListener("click", evaluarExamen);
+    document.getElementById("btnVerRespuestas").addEventListener("click", mostrarRespuestas);
+    document.getElementById("btnVolverIntentar").addEventListener("click", nuevoExamen);
+    document.getElementById("btnGuardarPuntuacion").addEventListener("click", () => alert("Función para guardar puntuación pendiente."));
+    document.getElementById("btnCerrarRespuestas").addEventListener("click", regresarResultado);
+    document.getElementById("btnRegresarResultado").addEventListener("click", regresarResultado);
+    document.getElementById("btnRegresarIntegracion").addEventListener("click", regresarIntegracion);
+
+    generarExamen();
+})();

@@ -1,0 +1,99 @@
+
+<section class="auth-page">
+    <div class="auth-card auth-card-register">
+        <a href="#" class="auth-brand" onclick="volverAlInicio(event)">
+            ComplexLab
+        </a>
+
+        <div class="auth-icon">＋</div>
+
+        <h1>Crea tu cuenta</h1>
+        <p class="auth-subtitle">
+            Regístrate para comenzar a aprender.
+        </p>
+
+        <form id="form-registro" novalidate>
+            <div class="auth-field">
+                <label for="registro-usuario">Nombre de usuario</label>
+                <input
+                    type="text"
+                    id="registro-usuario"
+                    name="usuario"
+                    placeholder="Elige un nombre de usuario"
+                    autocomplete="username"
+                    maxlength="30"
+                    required
+                >
+            </div>
+
+            <div class="auth-field">
+                <label for="registro-correo">Correo electrónico</label>
+                <input
+                    type="email"
+                    id="registro-correo"
+                    name="correo"
+                    placeholder="ejemplo@gmail.com"
+                    autocomplete="email"
+                    required
+                >
+                <small>Por ahora, solo se aceptan correos @gmail.com.</small>
+            </div>
+
+            <div class="auth-field">
+                <label for="registro-password">Contraseña</label>
+                <input
+                    type="password"
+                    id="registro-password"
+                    name="password"
+                    placeholder="Crea una contraseña segura"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <div class="password-rules">
+                <p>Tu contraseña debe contener:</p>
+                <ul>
+                    <li>10 caracteres como mínimo</li>
+                    <li>Al menos una letra mayúscula</li>
+                    <li>Al menos una letra minúscula</li>
+                    <li>Al menos un número</li>
+                    <li>Al menos un carácter especial: . _ @ ! &amp; % etc.</li>
+                </ul>
+            </div>
+
+            <div class="auth-field">
+                <label for="registro-confirmar">
+                    Confirmar contraseña
+                </label>
+                <input
+                    type="password"
+                    id="registro-confirmar"
+                    name="confirmar"
+                    placeholder="Escribe nuevamente tu contraseña"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <p id="registro-mensaje" class="auth-message"
+               role="alert" aria-live="polite"></p>
+
+            <button type="submit" class="auth-button">
+                Registrar cuenta
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            ¿Ya tienes cuenta?
+            <button type="button" id="ir-login">
+                Inicia sesión
+            </button>
+        </p>
+
+        <button type="button" class="auth-back"
+                onclick="volverAlInicio()">
+            ← Volver al inicio
+        </button>
+    </div>
+</section>

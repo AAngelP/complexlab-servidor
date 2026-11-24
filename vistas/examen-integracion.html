@@ -1,0 +1,71 @@
+<div class="contenedor-examen-complejo">
+
+  <!-- ENCABEZADO -->
+  <div class="encabezado-examen">
+    <button id="btnRegresarIntegracion" class="btn-regresar-examen">← Regresar a Integración Compleja</button>
+
+    <div class="titulo-examen">
+      <div class="icono-examen">∮</div>
+      <div>
+        <h2>Examen de Integración Compleja</h2>
+        <p>Integrales de contorno, Fórmula Integral de Cauchy y Teorema del Residuo</p>
+      </div>
+    </div>
+
+    <!-- PROGRESO -->
+    <div class="progreso-examen">
+      <div class="texto-progreso">
+        <span id="contadorPregunta">0 de 10 respondidas</span>
+        <span>Examen</span>
+      </div>
+      <div class="barra-progreso">
+        <div id="barraProgreso"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREGUNTAS -->
+  <div id="contenedorPreguntas" class="contenedor-preguntas"></div>
+
+  <!-- BOTÓN EVALUAR -->
+  <div class="contenedor-evaluar">
+    <button id="btnEvaluar" class="btn-evaluar">Evaluar examen</button>
+  </div>
+
+</div>
+
+<!-- MODAL DE RESULTADO -->
+<div id="modalResultado" class="modal-examen">
+  <div id="resultadoContenido" class="resultado-contenido">
+    <div id="iconoResultado" class="icono-resultado">✓</div>
+    <h2>Examen terminado</h2>
+    <p class="texto-puntuacion">Tu puntuación</p>
+    <div id="puntuacionFinal" class="puntuacion-final">0/10</div>
+    <p id="mensajeResultado" class="mensaje-resultado"></p>
+
+    <div class="botones-resultado">
+      <button id="btnVerRespuestas" class="btn-resultado btn-respuestas">Ver respuestas</button>
+      <button id="btnVolverIntentar" class="btn-resultado btn-intentar">Volver a intentar</button>
+      <button id="btnGuardarPuntuacion" class="btn-resultado btn-guardar">Guardar puntuación</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE RESPUESTAS -->
+<div id="modalRespuestas" class="modal-examen">
+  <div class="respuestas-contenido">
+    <div class="cabecera-respuestas">
+      <div>
+        <h2>Respuestas del examen</h2>
+        <p>Revisa cuáles fueron tus respuestas y cuál era la opción correcta.</p>
+      </div>
+      <button id="btnCerrarRespuestas" class="btn-cerrar">×</button>
+    </div>
+
+    <div id="resumenRespuestas"></div>
+    <button id="btnRegresarResultado" class="btn-regresar-resultado">← Regresar a mi puntuación</button>
+  </div>
+</div>
+
+<!-- JAVASCRIPT DEL EXAMEN -->
+<script src="http://localhost:5000/js/examen-integracion.js"></script>

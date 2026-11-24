@@ -1,0 +1,65 @@
+<div class="contenedor-variable-compleja">
+    <h2>Módulos de Variable Compleja</h2>
+    <div class="grid-cursos">
+        {{tarjetas_cursos}}
+    </div>
+</div>
+
+<script>
+    (function() {
+        const tarjetas = document.querySelectorAll('.tarjeta-curso');
+        
+        // Mapa que vincula el data-id de la tarjeta con la ruta de tu API
+        const rutasModulos = {
+            'algebra': 'http://localhost:5000/api/variable-compleja/algebra',
+            'derivacion': 'http://localhost:5000/api/variable-compleja/derivacion',
+            'integracion': 'http://localhost:5000/api/variable-compleja/integracion'
+        };
+
+        tarjetas.forEach(tarjeta => {
+            tarjeta.addEventListener('click', async () => {
+                tarjetas.forEach(t => t.classList.remove('activo'));
+                tarjeta.classList.add('activo');
+
+                const idCurso = tarjeta.getAttribute('data-id');
+                const urlApi = rutasModulos[idCurso];
+                
+                // Si el idCurso existe en nuestro mapa de rutas, cargamos dinámicamente sus temas
+                if (urlApi) {
+                    try {
+                        const respuesta = await fetch(urlApi);
+                        const datos = await respuesta.json();
+                        
+                        // Buscamos el contenedor principal definido en el cliente web
+                        const heroContent = document.querySelector('.hero-content');
+                        
+                        // Reemplazamos el CSS dinámico por el de los temas
+                        const cssViejo = document.getElementById('css-dinamico');
+                        if (cssViejo) cssViejo.remove();
+
+                        const css = document.createElement('link');
+                        css.id = 'css-dinamico';
+                        css.rel = 'stylesheet';
+                        css.href = datos.cssUrl;
+                        document.head.appendChild(css);
+
+                        // Insertamos el HTML de los temas
+                        heroContent.innerHTML = datos.html;
+
+                        // Ejecutamos los scripts contenidos en el nuevo HTML
+                        const scriptsInternos = heroContent.querySelectorAll('script');
+                        scriptsInternos.forEach(scriptViejo => {
+                            const scriptNuevo = document.createElement('script');
+                            scriptNuevo.text = scriptViejo.text;
+                            document.body.appendChild(scriptNuevo).parentNode.removeChild(scriptNuevo);
+                        });
+
+                    } catch(err) {
+                        console.error(`Error al redireccionar al módulo de ${idCurso}:`, err);
+                    }
+                }
+            });
+        });
+    })();
+</script>
+

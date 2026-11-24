@@ -1,0 +1,183 @@
+<div class="contenedor-explicacion layout-split">
+    <div class="panel-teorico">
+        <div class="alineacion-izquierda">
+            <button class="btn-regresar-interna" onclick="regresarAlasTarjetas()">← Volver a Temas</button>
+        </div>
+        <h2>Cauchy-Riemann, Analiticidad y Laplace</h2>
+        
+        <div class="bloque-requisito">
+            <h5>Descomposición Real e Imaginaria</h5>
+            <ul>
+                <li>Toda función compleja se escribe como <i>f</i>(<i>z</i>) = <i>f</i>(<i>x</i> + <i>iy</i>) = <i>u</i>(<i>x, y</i>) + <i>i v</i>(<i>x, y</i>).</li>
+                <li>Requiere manejo de derivadas parciales de primer y segundo orden (<i>u<sub>x</sub>, u<sub>y</sub>, u<sub>xx</sub>, u<sub>yy</sub></i>).</li>
+            </ul>
+        </div>
+
+        <p class="parrafo-teoria">
+            <strong>1. Ecuaciones de Cauchy-Riemann (CR):</strong> Si <i>f</i>(<i>z</i>) = <i>u</i>(<i>x, y</i>) + <i>iv</i>(<i>x, y</i>) es derivable en <i>z</i><sub>0</sub> = (<i>x</i><sub>0</sub>, <i>y</i><sub>0</sub>), entonces existen las derivadas parciales y satisfacen:
+        </p>
+
+        <div class="formula" style="text-align: center; margin: 12px 0; font-size: 1.2em;">
+            <math display="block">
+                <mfrac><mrow><mo>&part;</mo><mi>u</mi></mrow><mrow><mo>&part;</mo><mi>x</mi></mrow></mfrac>
+                <mo>=</mo>
+                <mfrac><mrow><mo>&part;</mo><mi>v</mi></mrow><mrow><mo>&part;</mo><mi>y</mi></mrow></mfrac>
+                <mspace width="2em"/>
+                <mtext>y</mtext>
+                <mspace width="2em"/>
+                <mfrac><mrow><mo>&part;</mo><mi>u</mi></mrow><mrow><mo>&part;</mo><mi>y</mi></mrow></mfrac>
+                <mo>=</mo>
+                <mo>&minus;</mo>
+                <mfrac><mrow><mo>&part;</mo><mi>v</mi></mrow><mrow><mo>&part;</mo><mi>x</mi></mrow></mfrac>
+            </math>
+        </div>
+
+        <p class="parrafo-teoria">
+            Además, si las parciales son continuas en una vecindad de <i>z</i><sub>0</sub>, <i>f</i> es <strong>analítica</strong> en <i>z</i><sub>0</sub> y su derivada se calcula directamente como:
+        </p>
+
+        <div class="formula" style="text-align: center; margin: 10px 0; font-size: 1.15em;">
+            <math display="block">
+                <msup><mi>f</mi><mo>'</mo></msup><mo>(</mo><mi>z</mi><mo>)</mo>
+                <mo>=</mo>
+                <msub><mi>u</mi><mi>x</mi></msub><mo>+</mo><mi>i</mi><msub><mi>v</mi><mi>x</mi></msub>
+                <mo>=</mo>
+                <msub><mi>v</mi><mi>y</mi></msub><mo>&minus;</mo><mi>i</mi><msub><mi>u</mi><mi>y</mi></msub>
+            </math>
+        </div>
+
+        <p class="parrafo-teoria">
+            <strong>2. Funciones Armónicas y Ecuación de Laplace:</strong> Si <i>f</i> = <i>u</i> + <i>iv</i> es analítica en un dominio <i>D</i>, entonces tanto <i>u</i> como <i>v</i> son <strong>funciones armónicas</strong> en <i>D</i>, es decir, satisfacen la ecuación diferencial de Laplace:
+        </p>
+
+        <div class="formula" style="text-align: center; margin: 12px 0; font-size: 1.2em;">
+            <math display="block">
+                <msup><mo>&nabla;</mo><mn>2</mn></msup><mi>u</mi>
+                <mo>=</mo>
+                <mfrac><mrow><msup><mo>&part;</mo><mn>2</mn></msup><mi>u</mi></mrow><mrow><mo>&part;</mo><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac>
+                <mo>+</mo>
+                <mfrac><mrow><msup><mo>&part;</mo><mn>2</mn></msup><mi>u</mi></mrow><mrow><mo>&part;</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac>
+                <mo>=</mo>
+                <mn>0</mn>
+                <mspace width="1.5em"/>
+                <mtext>y</mtext>
+                <mspace width="1.5em"/>
+                <msup><mo>&nabla;</mo><mn>2</mn></msup><mi>v</mi>
+                <mo>=</mo>
+                <mfrac><mrow><msup><mo>&part;</mo><mn>2</mn></msup><mi>v</mi></mrow><mrow><mo>&part;</mo><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac>
+                <mo>+</mo>
+                <mfrac><mrow><msup><mo>&part;</mo><mn>2</mn></msup><mi>v</mi></mrow><mrow><mo>&part;</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac>
+                <mo>=</mo>
+                <mn>0</mn>
+            </math>
+        </div>
+    </div>
+    <div class="panel-ejemplos">
+        <h3>Casos de Estudio Interactivos</h3>
+        
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 1: Comprobar Analiticidad de <i>f</i>(<i>z</i>) = <i>z</i><sup>3</sup> ▾</div>
+            <div class="acordeon-body">
+                <p>Expandimos <i>f</i>(<i>x</i> + <i>iy</i>) = (<i>x</i> + <i>iy</i>)<sup>3</sup> = (<i>x</i><sup>3</sup> &minus; 3<i>xy</i><sup>2</sup>) + <i>i</i>(3<i>x</i><sup>2</sup><i>y</i> &minus; <i>y</i><sup>3</sup>). Identificamos:</p>
+                <p><i>u</i>(<i>x, y</i>) = <i>x</i><sup>3</sup> &minus; 3<i>xy</i><sup>2</sup> &nbsp; y &nbsp; <i>v</i>(<i>x, y</i>) = 3<i>x</i><sup>2</sup><i>y</i> &minus; <i>y</i><sup>3</sup></p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mi>u</mi><mi>x</mi></msub><mo>=</mo><mn>3</mn><msup><mi>x</mi><mn>2</mn></msup><mo>&minus;</mo><mn>3</mn><msup><mi>y</mi><mn>2</mn></msup><mo>,</mo>
+                        <mspace width="1em"/>
+                        <msub><mi>v</mi><mi>y</mi></msub><mo>=</mo><mn>3</mn><msup><mi>x</mi><mn>2</mn></msup><mo>&minus;</mo><mn>3</mn><msup><mi>y</mi><mn>2</mn></msup>
+                        <mo>&rArr;</mo>
+                        <msub><mi>u</mi><mi>x</mi></msub><mo>=</mo><msub><mi>v</mi><mi>y</mi></msub><mspace width="0.5em"/><mo>&check;</mo>
+                    </math>
+                    <math display="block" style="margin-top: 8px;">
+                        <msub><mi>u</mi><mi>y</mi></msub><mo>=</mo><mo>&minus;</mo><mn>6</mn><mi>x</mi><mi>y</mi><mo>,</mo>
+                        <mspace width="1em"/>
+                        <msub><mi>v</mi><mi>x</mi></msub><mo>=</mo><mn>6</mn><mi>x</mi><mi>y</mi>
+                        <mo>&rArr;</mo>
+                        <msub><mi>u</mi><mi>y</mi></msub><mo>=</mo><mo>&minus;</mo><msub><mi>v</mi><mi>x</mi></msub><mspace width="0.5em"/><mo>&check;</mo>
+                    </math>
+                </div>
+                <p>Como las parciales son polinomios (continuas en todo <span style="font-family: 'Times New Roman', serif;">ℝ</span><sup>2</sup>), <i>f</i>(<i>z</i>) = <i>z</i><sup>3</sup> es <strong>analítica en todo <span style="font-family: 'Times New Roman', serif;">ℂ</span> (función entera)</strong> y <i>f'</i>(<i>z</i>) = <i>u<sub>x</sub></i> + <i>iv<sub>x</sub></i> = 3(<i>x</i><sup>2</sup> &minus; <i>y</i><sup>2</sup> + 2<i>ixy</i>) = 3<i>z</i><sup>2</sup>.</p>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 2: Función que NO cumple Cauchy-Riemann <i>f</i>(<i>z</i>) = <i>x</i><sup>2</sup> + <i>iy</i><sup>2</sup> ▾</div>
+            <div class="acordeon-body">
+                <p>Tenemos <i>u</i>(<i>x, y</i>) = <i>x</i><sup>2</sup> y <i>v</i>(<i>x, y</i>) = <i>y</i><sup>2</sup>. Calculamos las derivadas parciales:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mi>u</mi><mi>x</mi></msub><mo>=</mo><mn>2</mn><mi>x</mi><mo>,</mo>
+                        <mspace width="1em"/>
+                        <msub><mi>v</mi><mi>y</mi></msub><mo>=</mo><mn>2</mn><mi>y</mi>
+                        <mo>&rArr;</mo>
+                        <mn>2</mn><mi>x</mi><mo>=</mo><mn>2</mn><mi>y</mi><mo>&hArr;</mo><mi>y</mi><mo>=</mo><mi>x</mi>
+                    </math>
+                    <math display="block" style="margin-top: 8px;">
+                        <msub><mi>u</mi><mi>y</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo>
+                        <mspace width="1em"/>
+                        <msub><mi>v</mi><mi>x</mi></msub><mo>=</mo><mn>0</mn>
+                        <mo>&rArr;</mo>
+                        <mn>0</mn><mo>=</mo><mo>&minus;</mo><mn>0</mn><mspace width="0.5em"/><mo>&check;</mo>
+                    </math>
+                </div>
+                <p>Las ecuaciones de CR solo se cumplen sobre la recta <i>y</i> = <i>x</i>. Como no se cumplen en ningún disco abierto alrededor de ningún punto, <i>f</i>(<i>z</i>) <strong>no es analítica en ninguna parte de <span style="font-family: 'Times New Roman', serif;">ℂ</span></strong> (solo es derivable sobre la recta <i>y</i> = <i>x</i>).</p>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 3: Verificar Función Armónica con Laplace ▾</div>
+            <div class="acordeon-body">
+                <p>Comprobar si <i>u</i>(<i>x, y</i>) = <i>e<sup>x</sup></i> cos <i>y</i> es armónica en todo el plano:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mi>u</mi><mi>x</mi></msub><mo>=</mo><msup><mi>e</mi><mi>x</mi></msup><mi>cos</mi><mi>y</mi>
+                        <mo>&rArr;</mo>
+                        <msub><mi>u</mi><mrow><mi>x</mi><mi>x</mi></mrow></msub><mo>=</mo><msup><mi>e</mi><mi>x</mi></msup><mi>cos</mi><mi>y</mi>
+                    </math>
+                    <math display="block" style="margin-top: 8px;">
+                        <msub><mi>u</mi><mi>y</mi></msub><mo>=</mo><mo>&minus;</mo><msup><mi>e</mi><mi>x</mi></msup><mi>sen</mi><mi>y</mi>
+                        <mo>&rArr;</mo>
+                        <msub><mi>u</mi><mrow><mi>y</mi><mi>y</mi></mrow></msub><mo>=</mo><mo>&minus;</mo><msup><mi>e</mi><mi>x</mi></msup><mi>cos</mi><mi>y</mi>
+                    </math>
+                    <math display="block" style="margin-top: 8px;">
+                        <msup><mo>&nabla;</mo><mn>2</mn></msup><mi>u</mi>
+                        <mo>=</mo>
+                        <msub><mi>u</mi><mrow><mi>x</mi><mi>x</mi></mrow></msub><mo>+</mo><msub><mi>u</mi><mrow><mi>y</mi><mi>y</mi></mrow></msub>
+                        <mo>=</mo>
+                        <msup><mi>e</mi><mi>x</mi></msup><mi>cos</mi><mi>y</mi><mo>&minus;</mo><msup><mi>e</mi><mi>x</mi></msup><mi>cos</mi><mi>y</mi>
+                        <mo>=</mo>
+                        <mn>0</mn>
+                    </math>
+                </div>
+                <p>Al cumplirse &nabla;<sup>2</sup><i>u</i> = 0 con segundas parciales continuas, <i>u</i>(<i>x, y</i>) es <strong>armónica en todo <span style="font-family: 'Times New Roman', serif;">ℝ</span><sup>2</sup></strong>.</p>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 4: Hallar la Armónica Conjugada <i>v</i>(<i>x, y</i>) ▾</div>
+            <div class="acordeon-body">
+                <p>Dada <i>u</i>(<i>x, y</i>) = <i>x</i><sup>2</sup> &minus; <i>y</i><sup>2</sup>, construir <i>f</i>(<i>z</i>) = <i>u</i> + <i>iv</i> analítica:</p>
+                <p><strong>Paso 1:</strong> Verificamos Laplace: <i>u<sub>xx</sub></i> + <i>u<sub>yy</sub></i> = 2 + (&minus;2) = 0. Es armónica.</p>
+                <p><strong>Paso 2:</strong> Usamos CR: <i>v<sub>y</sub></i> = <i>u<sub>x</sub></i> = 2<i>x</i>. Integramos respecto a <i>y</i>:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <mi>v</mi><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo>
+                        <mo>=</mo>
+                        <mo>&int;</mo><mn>2</mn><mi>x</mi><mspace width="0.2em"/><mi>d</mi><mi>y</mi>
+                        <mo>=</mo>
+                        <mn>2</mn><mi>x</mi><mi>y</mi><mo>+</mo><mi>&phi;</mi><mo>(</mo><mi>x</mi><mo>)</mo>
+                    </math>
+                </div>
+                <p><strong>Paso 3:</strong> Aplicamos la segunda ecuación CR: <i>v<sub>x</sub></i> = &minus;<i>u<sub>y</sub></i> &rArr; 2<i>y</i> + &phi;'(<i>x</i>) = &minus;(&minus;2<i>y</i>) = 2<i>y</i> &rArr; &phi;'(<i>x</i>) = 0 &rArr; &phi;(<i>x</i>) = <i>C</i>.</p>
+                <p>Así, <i>v</i>(<i>x, y</i>) = 2<i>xy</i> + <i>C</i> y la función analítica resultante es <i>f</i>(<i>z</i>) = (<i>x</i><sup>2</sup> &minus; <i>y</i><sup>2</sup>) + <i>i</i>(2<i>xy</i> + <i>C</i>) = <i>z</i><sup>2</sup> + <i>iC</i>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAcordeon(elemento) {
+        elemento.classList.toggle('abierto');
+    }
+</script>
+

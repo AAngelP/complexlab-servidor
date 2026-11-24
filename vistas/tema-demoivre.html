@@ -1,0 +1,382 @@
+<!-- Se añade un estilo inline temporal de compensación de barra (padding-top y z-index relativo) -->
+<div class="contenedor-explicacion layout-centrado" style="padding-top: 100px; padding-bottom: 80px; min-height: 100vh; box-sizing: border-box; display: block; max-width: 1200px; margin: 0 auto; overflow: visible;">
+    <div class="alineacion-izquierda">
+        <button class="btn-regresar-interna" onclick="regresarAlasTarjetas()">← Volver a Temas</button>
+    </div>
+    <h2>Teorema de De Moivre: Potencias y Raíces</h2>
+
+    <div class="insignia-requisito">
+        <strong>Conocimiento crítico:</strong> Conversión obligatoria a coordenadas polares complejas: 
+        <i>z</i> = <i>r</i>(cos(<i>θ</i>) + <i>i</i> sen(<i>θ</i>))
+    </div>
+
+    <!-- SECCIÓN 1: POTENCIACIÓN E INTERPRETACIÓN -->
+    <div class="tarjeta-teorema-grandiosa">
+        <h4>1. Potenciación Compleja</h4>
+        <p>Para cualquier número entero <i>n</i>, la fórmula simplifica el cálculo directo de potencias elevadas:</p>
+        <div class="formula-gigante" style="text-align: center; margin: 15px 0; overflow-x: auto;">
+            <math display="block">
+                <msup>
+                    <mfenced open="[" close="]">
+                        <mrow>
+                            <mi>r</mi>
+                            <mo>(</mo>
+                            <mi>cos</mi>
+                            <mi>θ</mi>
+                            <mo>+</mo>
+                            <mi>i</mi>
+                            <mi>sen</mi>
+                            <mi>θ</mi>
+                            <mo>)</mo>
+                        </mrow>
+                    </mfenced>
+                    <mi>n</mi>
+                </msup>
+                <mo>=</mo>
+                <msup>
+                    <mi>r</mi>
+                    <mi>n</mi>
+                </msup>
+                <mfenced open="[" close="]">
+                    <mrow>
+                        <mi>cos</mi>
+                        <mo>(</mo>
+                        <mi>n</mi>
+                        <mi>θ</mi>
+                        <mo>)</mo>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mi>sen</mi>
+                        <mo>(</mo>
+                        <mi>n</mi>
+                        <mi>θ</mi>
+                        <mo>)</mo>
+                    </mrow>
+                </mfenced>
+            </math>
+        </div>
+        <p class="parrafo-teoria">
+            <strong>Interpretación Geométrica:</strong> Elevar un complejo a la potencia <i>n</i> amplifica su distancia al origen de forma exponencial (<math><msup><mi>r</mi><mi>n</mi></msup></math>) y rota su argumento multiplicando el ángulo original por <i>n</i>.
+        </p>
+    </div>
+
+    <!-- SECCIÓN 2: RAÍCES E INTERPRETACIÓN -->
+    <div class="tarjeta-teorema-grandiosa" style="margin-top: 20px;">
+        <h4>2. Raíces n-ésimas en el Plano Complejo</h4>
+        <p>Todo número complejo tiene exactamente <i>n</i> raíces distintas. Se calculan variando el parámetro entero <i>k</i> desde 0 hasta <i>n</i>-1:</p>
+        <div class="formula-gigante" style="text-align: center; margin: 15px 0; overflow-x: auto;">
+            <math display="block">
+                <msub>
+                    <mi>w</mi>
+                    <mi>k</mi>
+                </msub>
+                <mo>=</mo>
+                <mroot>
+                    <mi>r</mi>
+                    <mi>n</mi>
+                </mroot>
+                <mfenced open="[" close="]">
+                    <mrow>
+                        <mi>cos</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mi>θ</mi>
+                                    <mo>+</mo>
+                                    <mn>2</mn>
+                                    <mi>k</mi>
+                                    <mi>π</mi>
+                                </mrow>
+                                <mi>n</mi>
+                            </mfrac>
+                        </mfenced>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mi>sen</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mi>θ</mi>
+                                    <mo>+</mo>
+                                    <mn>2</mn>
+                                    <mi>k</mi>
+                                    <mi>π</mi>
+                                </mrow>
+                                <mi>n</mi>
+                            </mfrac>
+                        </mfenced>
+                    </mrow>
+                </mfenced>
+            </math>
+        </div>
+        <p class="parrafo-teoria">
+            <strong>Interpretación Geométrica:</strong> Las <i>n</i> raíces se distribuyen simétricamente en el plano de Argand. Todas comparten el mismo módulo (<math><mroot><mi>r</mi><mi>n</mi></mroot></math>), localizándose sobre una circunferencia y formando los vértices de un <strong>polígono regular de <i>n</i> lados</strong> centrado en el origen.
+        </p>
+    </div>
+
+    <!-- CASOS DE ESTUDIO INTERACTIVOS -->
+    <div class="panel-ejemplos" style="margin-top: 30px; padding-bottom: 50px;">
+        <h3>Casos de Estudio Interactivos</h3>
+        
+        <!-- EJERCICIO 1: POTENCIACIÓN -->
+        <div class="acordeon" onclick="toggleAcordeon(this)" style="margin-bottom: 15px;">
+            <div class="acordeon-header">Caso 1: Potenciación Directa (Exponente Entero) ▾</div>
+            <div class="acordeon-body" style="overflow-x: auto;">
+                <p>Elevar al cubo (<i>n</i> = 3) el número complejo polar: <math><mi>z</mi><mo>=</mo><mn>2</mn><mo>(</mo><mi>cos</mi><mfrac><mi>π</mi><mn>6</mn></mfrac><mo>+</mo><mi>i</mi><mi>sen</mi><mfrac><mi>π</mi><mn>6</mn></mfrac><mo>)</mo></math></p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msup>
+                            <mi>z</mi>
+                            <mn>3</mn>
+                        </msup>
+                        <mo>=</mo>
+                        <msup>
+                            <mn>2</mn>
+                            <mn>3</mn>
+                        </msup>
+                        <mfenced open="[" close="]">
+                            <mrow>
+                                <mi>cos</mi>
+                                <mo>(</mo>
+                                <mn>3</mn>
+                                <mo>·</mo>
+                                <mfrac>
+                                    <mi>π</mi>
+                                    <mn>6</mn>
+                                </mfrac>
+                                <mo>)</mo>
+                                <mo>+</mo>
+                                <mi>i</mi>
+                                <mi>sen</mi>
+                                <mo>(</mo>
+                                <mn>3</mn>
+                                <mo>·</mo>
+                                <mfrac>
+                                    <mi>π</mi>
+                                    <mn>6</mn>
+                                </mfrac>
+                                <mo>)</mo>
+                            </mrow>
+                        </mfenced>
+                    </math>
+                    <math display="block">
+                        <mo>=</mo>
+                        <mn>8</mn>
+                        <mfenced open="[" close="]">
+                            <mrow>
+                                <mi>cos</mi>
+                                <mo>(</mo>
+                                <mfrac>
+                                    <mi>π</mi>
+                                    <mn>2</mn>
+                                </mfrac>
+                                <mo>)</mo>
+                                <mo>+</mo>
+                                <mi>i</mi>
+                                <mi>sen</mi>
+                                <mo>(</mo>
+                                <mfrac>
+                                    <mi>π</mi>
+                                    <mn>2</mn>
+                                </mfrac>
+                                <mo>)</mo>
+                            </mrow>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mn>8</mn>
+                        <mo>(</mo>
+                        <mn>0</mn>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mo>)</mo>
+                        <mo>=</mo>
+                        <mn>8</mn>
+                        <mi>i</mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIO 2: RAÍCES -->
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 2: Extracción de Raíces Cuadradas (Polígono Geométrico) ▾</div>
+            <div class="acordeon-body" style="overflow-x: auto;">
+                <p>Encontrar las raíces cuadradas (<i>n</i> = 2) de <math><mi>z</mi><mo>=</mo><mn>4</mn><mo>(</mo><mi>cos</mi><mi>π</mi><mo>+</mo><mi>i</mi><mi>sen</mi><mi>π</mi><mo>)</mo></math>.</p>
+                
+             <div class="acordeon" onclick="toggleAcordeon(this)">
+    <div class="acordeon-header">Caso 2: Extracción de Raíces Cuadradas (Polígono Geométrico) ▾</div>
+    <div class="acordeon-body" style="overflow-x: auto;">
+        <p>Encontrar las raíces cuadradas (<i>n</i> = 2) de <math><mi>z</mi><mo>=</mo><mn>4</mn><mo>(</mo><mi>cos</mi><mi>π</mi><mo>+</mo><mi>i</mi><mi>sen</mi><mi>π</mi><mo>)</mo></math>.</p>
+        
+        <div class="desarrollo" style="margin: 10px 0;">
+            <!-- PARTE REPARADA: K = 0 COMPLETADO -->
+            <p><strong>Para k = 0:</strong></p>
+            <math display="block">
+                <msub>
+                    <mi>w</mi>
+                    <mn>0</mn>
+                </msub>
+                <mo>=</mo>
+                <mn>2</mn>
+                <mfenced open="[" close="]">
+                    <mrow>
+                        <mi>cos</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mi>π</mi>
+                                    <mo>+</mo>
+                                    <mn>0</mn>
+                                </mrow>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mi>sen</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mi>π</mi>
+                                    <mo>+</mo>
+                                    <mn>0</mn>
+                                </mrow>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                    </mrow>
+                </mfenced>
+            </math>
+            <math display="block">
+                <mo>=</mo>
+                <mn>2</mn>
+                <mfenced open="[" close="]">
+                    <mrow>
+                        <mi>cos</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mi>π</mi>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mi>sen</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mi>π</mi>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                    </mrow>
+                </mfenced>
+                <mo>=</mo>
+                <mn>2</mn>
+                <mo>(</mo>
+                <mn>0</mn>
+                <mo>+</mo>
+                <mi>i</mi>
+                <mo>)</mo>
+                <mo>=</mo>
+                <mn>2</mn>
+                <mi>i</mi>
+            </math>
+            
+            <!-- K = 1 COMPLETADO -->
+            <p style="margin-top: 15px;"><strong>Para k = 1:</strong></p>
+            <math display="block">
+                <msub>
+                    <mi>w</mi>
+                    <mn>1</mn>
+                </msub>
+                <mo>=</mo>
+                <mn>2</mn>
+                <mfenced open="[" close="]">
+                    <mrow>
+                        <mi>cos</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mi>π</mi>
+                                    <mo>+</mo>
+                                    <mn>2</mn>
+                                    <mi>π</mi>
+                                </mrow>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mi>sen</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mi>π</mi>
+                                    <mo>+</mo>
+                                    <mn>2</mn>
+                                    <mi>π</mi>
+                                </mrow>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                    </mrow>
+                </mfenced>
+            </math>
+            <math display="block">
+                <mo>=</mo>
+                <mn>2</mn>
+                <mfenced open="[" close="]">
+                    <mrow>
+                        <mi>cos</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mn>3</mn>
+                                    <mi>π</mi>
+                                </mrow>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                        <mo>+</mo>
+                        <mi>i</mi>
+                        <mi>sen</mi>
+                        <mfenced>
+                            <mfrac>
+                                <mrow>
+                                    <mn>3</mn>
+                                    <mi>π</mi>
+                                </mrow>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mfenced>
+                    </mrow>
+                </mfenced>
+                <mo>=</mo>
+                <mn>2</mn>
+                <mo>(</mo>
+                <mn>0</mn>
+                <mo>-</mo>
+                <mi>i</mi>
+                <mo>)</mo>
+                <mo>=</mo>
+                <mo>-</mo>
+                <mn>2</mn>
+                <mi>i</mi>
+            </math>
+            
+            <p style="font-size: 0.9em; color: #555; margin-top: 10px;">
+                * Observa la simetría: Ambas respuestas están separadas por un ángulo exacto de π radianes (180°), formando una línea recta perfecta sobre el eje imaginario.
+            </p>
+        </div> <!-- Cierra la clase 'desarrollo' -->
+    </div> <!-- Cierra la clase 'acordeon-body' -->
+</div> <!-- Cierra la clase 'acordeon' (Caso 2) -->
+
+    </div> <!-- Cierra la clase 'panel-ejemplos' -->
+</div> <!-- Cierra la clase 'contenedor-explicacion' -->
+
+<script>
+    function toggleAcordeon(elemento) {
+        elemento.classList.toggle('abierto');
+    }
+</script>
+

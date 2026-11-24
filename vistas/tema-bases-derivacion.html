@@ -1,0 +1,182 @@
+<div class="contenedor-explicacion layout-split">
+    <div class="panel-teorico">
+        <div class="alineacion-izquierda">
+            <button class="btn-regresar-interna" onclick="regresarAlasTarjetas()">← Volver a Temas</button>
+        </div>
+        <h2>Bases de Derivación Compleja</h2>
+        
+        <div class="bloque-requisito">
+            <h5>Conocimientos Previos</h5>
+            <ul>
+                <li>Números complejos en forma binomial: <i>z</i> = <i>x</i> + <i>iy</i> y su módulo |<i>z</i>| = &radic;<span style="text-decoration: overline;"><i>x</i><sup>2</sup> + <i>y</i><sup>2</sup></span>.</li>
+                <li>Concepto de vecindad abierta (disco) en el plano complejo <span style="font-family: 'Times New Roman', serif; font-size: 1.15em;">ℂ</span>.</li>
+                <li>Límites y derivadas ordinarias de funciones reales de una variable.</li>
+            </ul>
+        </div>
+
+        <p class="parrafo-teoria">
+            Sea <i>f</i> : <i>D</i> &sube; <span style="font-family: 'Times New Roman', serif;">ℂ</span> &rarr; <span style="font-family: 'Times New Roman', serif;">ℂ</span> una función definida en una vecindad de <i>z</i><sub>0</sub>. Decimos que <i>f</i> es <strong>derivable (o compleja-diferenciable)</strong> en <i>z</i><sub>0</sub> si existe el siguiente límite:
+        </p>
+
+        <div class="formula" style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+            <math display="block">
+                <msup><mi>f</mi><mo>'</mo></msup><mo>(</mo><msub><mi>z</mi><mn>0</mn></msub><mo>)</mo>
+                <mo>=</mo>
+                <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                <mfrac>
+                    <mrow><mi>f</mi><mo>(</mo><msub><mi>z</mi><mn>0</mn></msub><mo>+</mo><mi>&Delta;</mi><mi>z</mi><mo>)</mo><mo>&minus;</mo><mi>f</mi><mo>(</mo><msub><mi>z</mi><mn>0</mn></msub><mo>)</mo></mrow>
+                    <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                </mfrac>
+            </math>
+        </div>
+
+        <p class="parrafo-teoria">
+            A diferencia del cálculo real, donde &Delta;<i>x</i> &rarr; 0 solo por izquierda o derecha, en <span style="font-family: 'Times New Roman', serif;">ℂ</span> el incremento &Delta;<i>z</i> = &Delta;<i>x</i> + <i>i</i>&Delta;<i>y</i> puede acercarse a cero desde <strong>infinitas direcciones</strong>. Si el límite depende de la trayectoria elegida, la derivada no existe.
+        </p>
+
+        <div class="bloque-requisito" style="margin-top: 15px;">
+            <h5>Reglas Elementales de Derivación</h5>
+            <ul>
+                <li><strong>Constante y Potencia:</strong> <i>d/dz</i> [<i>c</i>] = 0 &nbsp;y&nbsp; <i>d/dz</i> [<i>z<sup>n</sup></i>] = <i>n z</i><sup><i>n</i>&minus;1</sup> para <i>n</i> &isin; <span style="font-family: 'Times New Roman', serif;">ℤ</span>.</li>
+                <li><strong>Linealidad:</strong> [<i>a f</i>(<i>z</i>) + <i>b g</i>(<i>z</i>)]' = <i>a f'</i>(<i>z</i>) + <i>b g'</i>(<i>z</i>).</li>
+                <li><strong>Producto:</strong> [<i>f</i>(<i>z</i>)<i>g</i>(<i>z</i>)]' = <i>f'</i>(<i>z</i>)<i>g</i>(<i>z</i>) + <i>f</i>(<i>z</i>)<i>g'</i>(<i>z</i>).</li>
+                <li><strong>Cociente:</strong> [<i>f</i>(<i>z</i>) / <i>g</i>(<i>z</i>)]' = (<i>f'</i>(<i>z</i>)<i>g</i>(<i>z</i>) &minus; <i>f</i>(<i>z</i>)<i>g'</i>(<i>z</i>)) / [<i>g</i>(<i>z</i>)]<sup>2</sup>, con <i>g</i>(<i>z</i>) &ne; 0.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-ejemplos">
+        <h3>Casos de Estudio Interactivos</h3>
+        
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 1: Derivación por Definición de <i>f</i>(<i>z</i>) = <i>z</i><sup>2</sup> ▾</div>
+            <div class="acordeon-body">
+                <p>Aplicamos directamente el límite del cociente incremental en un punto arbitrario <i>z</i> &isin; <span style="font-family: 'Times New Roman', serif;">ℂ</span>:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msup><mi>f</mi><mo>'</mo></msup><mo>(</mo><mi>z</mi><mo>)</mo>
+                        <mo>=</mo>
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mfrac>
+                            <mrow><msup><mrow><mo>(</mo><mi>z</mi><mo>+</mo><mi>&Delta;</mi><mi>z</mi><mo>)</mo></mrow><mn>2</mn></msup><mo>&minus;</mo><msup><mi>z</mi><mn>2</mn></msup></mrow>
+                            <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                        </mfrac>
+                    </math>
+                    <math display="block" style="margin-top: 8px;">
+                        <mo>=</mo>
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mfrac>
+                            <mrow><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><mn>2</mn><mi>z</mi><mi>&Delta;</mi><mi>z</mi><mo>+</mo><msup><mrow><mo>(</mo><mi>&Delta;</mi><mi>z</mi><mo>)</mo></mrow><mn>2</mn></msup><mo>&minus;</mo><msup><mi>z</mi><mn>2</mn></msup></mrow>
+                            <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mo>(</mo><mn>2</mn><mi>z</mi><mo>+</mo><mi>&Delta;</mi><mi>z</mi><mo>)</mo>
+                        <mo>=</mo>
+                        <mn>2</mn><mi>z</mi>
+                    </math>
+                </div>
+                <p>El resultado es independiente de cómo &Delta;<i>z</i> &rarr; 0, por lo que <i>f</i>(<i>z</i>) = <i>z</i><sup>2</sup> es derivable en todo <span style="font-family: 'Times New Roman', serif;">ℂ</span>.</p>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 2: Función NO Derivable <i>f</i>(<i>z</i>) = <span style="text-decoration: overline;"><i>z</i></span> (Conjugado) ▾</div>
+            <div class="acordeon-body">
+                <p>Evaluamos el cociente incremental para <i>f</i>(<i>z</i>) = <span style="text-decoration: overline;"><i>z</i></span> usando &Delta;<i>z</i> = &Delta;<i>x</i> + <i>i</i>&Delta;<i>y</i>:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <mfrac>
+                            <mrow><mover><mrow><mi>z</mi><mo>+</mo><mi>&Delta;</mi><mi>z</mi></mrow><mo>&OverBar;</mo></mover><mo>&minus;</mo><mover><mi>z</mi><mo>&OverBar;</mo></mover></mrow>
+                            <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                            <mover><mrow><mi>&Delta;</mi><mi>z</mi></mrow><mo>&OverBar;</mo></mover>
+                            <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                            <mrow><mi>&Delta;</mi><mi>x</mi><mo>&minus;</mo><mi>i</mi><mi>&Delta;</mi><mi>y</mi></mrow>
+                            <mrow><mi>&Delta;</mi><mi>x</mi><mo>+</mo><mi>i</mi><mi>&Delta;</mi><mi>y</mi></mrow>
+                        </mfrac>
+                    </math>
+                </div>
+                <p><strong>Trayectoria 1 (Eje Real, &Delta;<i>y</i> = 0):</strong></p>
+                <div class="desarrollo" style="text-align: center;">
+                    <math display="block">
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>x</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mfrac><mrow><mi>&Delta;</mi><mi>x</mi></mrow><mrow><mi>&Delta;</mi><mi>x</mi></mrow></mfrac>
+                        <mo>=</mo><mn>1</mn>
+                    </math>
+                </div>
+                <p><strong>Trayectoria 2 (Eje Imaginario, &Delta;<i>x</i> = 0):</strong></p>
+                <div class="desarrollo" style="text-align: center;">
+                    <math display="block">
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>y</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mfrac><mrow><mo>&minus;</mo><mi>i</mi><mi>&Delta;</mi><mi>y</mi></mrow><mrow><mi>i</mi><mi>&Delta;</mi><mi>y</mi></mrow></mfrac>
+                        <mo>=</mo><mo>&minus;</mo><mn>1</mn>
+                    </math>
+                </div>
+                <p>Como 1 &ne; &minus;1, el límite no existe en ningún punto. <i>f</i>(<i>z</i>) = <span style="text-decoration: overline;"><i>z</i></span> <strong>no es derivable en ningún lugar de <span style="font-family: 'Times New Roman', serif;">ℂ</span></strong>.</p>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 3: Derivación Racional con Reglas Elementales ▾</div>
+            <div class="acordeon-body">
+                <p>Calcular <i>f'</i>(<i>z</i>) para <i>f</i>(<i>z</i>) = (<i>z</i><sup>3</sup> &minus; 2<i>i</i>) / (<i>z</i> + 1) con <i>z</i> &ne; &minus;1:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msup><mi>f</mi><mo>'</mo></msup><mo>(</mo><mi>z</mi><mo>)</mo>
+                        <mo>=</mo>
+                        <mfrac>
+                            <mrow><mo>(</mo><mn>3</mn><msup><mi>z</mi><mn>2</mn></msup><mo>)</mo><mo>(</mo><mi>z</mi><mo>+</mo><mn>1</mn><mo>)</mo><mo>&minus;</mo><mo>(</mo><msup><mi>z</mi><mn>3</mn></msup><mo>&minus;</mo><mn>2</mn><mi>i</mi><mo>)</mo><mo>(</mo><mn>1</mn><mo>)</mo></mrow>
+                            <msup><mrow><mo>(</mo><mi>z</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></msup>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                            <mrow><mn>2</mn><msup><mi>z</mi><mn>3</mn></msup><mo>+</mo><mn>3</mn><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><mn>2</mn><mi>i</mi></mrow>
+                            <msup><mrow><mo>(</mo><mi>z</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mn>2</mn></msup>
+                        </mfrac>
+                    </math>
+                </div>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 4: Derivabilidad Puntual en <i>f</i>(<i>z</i>) = |<i>z</i>|<sup>2</sup> ▾</div>
+            <div class="acordeon-body">
+                <p>Analizamos <i>f</i>(<i>z</i>) = <i>z</i><span style="text-decoration: overline;"><i>z</i></span> en <i>z</i><sub>0</sub> = 0:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msup><mi>f</mi><mo>'</mo></msup><mo>(</mo><mn>0</mn><mo>)</mo>
+                        <mo>=</mo>
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mfrac>
+                            <mrow><msup><mrow><mo>|</mo><mn>0</mn><mo>+</mo><mi>&Delta;</mi><mi>z</mi><mo>|</mo></mrow><mn>2</mn></msup><mo>&minus;</mo><mn>0</mn></mrow>
+                            <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mfrac>
+                            <mrow><mi>&Delta;</mi><mi>z</mi><mover><mrow><mi>&Delta;</mi><mi>z</mi></mrow><mo>&OverBar;</mo></mover></mrow>
+                            <mrow><mi>&Delta;</mi><mi>z</mi></mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <munder><mo>lim</mo><mrow><mi>&Delta;</mi><mi>z</mi><mo>&rarr;</mo><mn>0</mn></mrow></munder>
+                        <mover><mrow><mi>&Delta;</mi><mi>z</mi></mrow><mo>&OverBar;</mo></mover>
+                        <mo>=</mo>
+                        <mn>0</mn>
+                    </math>
+                </div>
+                <p>Curiosamente, <i>f</i>(<i>z</i>) = |<i>z</i>|<sup>2</sup> <strong>solo es derivable en <i>z</i><sub>0</sub> = 0</strong> (donde <i>f'</i>(0) = 0), pero falla en cualquier otro punto <i>z</i><sub>0</sub> &ne; 0.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAcordeon(elemento) {
+        elemento.classList.toggle('abierto');
+    }
+</script>

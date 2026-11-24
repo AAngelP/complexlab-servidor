@@ -1,0 +1,1220 @@
+/* =========================================================
+   EXAMEN DE ÁLGEBRA COMPLEJA
+   COMPLEXLAB
+========================================================= */
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
+
+.contenedor-examen-complejo {
+
+    padding: 35px 20px 60px;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    font-family:
+        'Segoe UI',
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
+
+    color: #2c3e50;
+}
+
+
+/* =========================================================
+   ENCABEZADO
+========================================================= */
+
+.encabezado-examen {
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   BOTÓN REGRESAR
+========================================================= */
+
+.btn-regresar-examen {
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 11px 20px;
+
+    background:
+        rgba(255, 255, 255, 0.65);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.4);
+
+    color:
+        #2c3e50;
+
+    font-size:
+        0.95rem;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.btn-regresar-examen:hover {
+
+    transform:
+        translateX(-5px);
+
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.titulo-examen {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        18px;
+
+    margin-top:
+        25px;
+}
+
+.icono-examen {
+
+    width:
+        65px;
+
+    height:
+        65px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(33, 47, 61, 0.85);
+
+    color:
+        #ffffff;
+
+    font-size:
+        2rem;
+
+    font-weight:
+        bold;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.titulo-examen h2 {
+
+    margin:
+        0;
+
+    color:
+        #ffffff;
+
+    font-size:
+        1.8rem;
+
+    text-shadow:
+        1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.titulo-examen p {
+
+    margin-top:
+        6px;
+
+    color:
+        rgba(255, 255, 255, 0.85);
+
+    font-size:
+        0.95rem;
+}
+
+
+/* =========================================================
+   PROGRESO
+========================================================= */
+
+.progreso-examen {
+
+    margin-top:
+        25px;
+
+    padding:
+        17px 20px;
+
+    background:
+        rgba(255, 255, 255, 0.65);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.4);
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.texto-progreso {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    font-size:
+        0.9rem;
+}
+
+.texto-progreso span:first-child {
+
+    font-weight:
+        700;
+}
+
+.texto-progreso span:last-child {
+
+    opacity:
+        0.7;
+}
+
+.barra-progreso {
+
+    height:
+        8px;
+
+    margin-top:
+        11px;
+
+    background:
+        rgba(44, 62, 80, 0.15);
+
+    border-radius:
+        20px;
+
+    overflow:
+        hidden;
+}
+
+#barraProgreso {
+
+    width:
+        0%;
+
+    height:
+        100%;
+
+    background:
+        #2c3e50;
+
+    border-radius:
+        20px;
+
+    transition:
+        width 0.4s ease;
+}
+
+
+/* =========================================================
+   CONTENEDOR PREGUNTAS
+========================================================= */
+
+.contenedor-preguntas {
+
+    width:
+        100%;
+}
+
+
+/* =========================================================
+   TARJETA DE PREGUNTA
+========================================================= */
+
+.tarjeta-pregunta {
+
+    background:
+        rgba(255, 255, 255, 0.65);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.4);
+
+    border-radius:
+        16px;
+
+    padding:
+        25px;
+
+    margin-bottom:
+        25px;
+
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.1);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.tarjeta-pregunta:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================
+   ENCABEZADO DE PREGUNTA
+========================================================= */
+
+.encabezado-pregunta {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        12px;
+}
+
+.numero-pregunta {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    min-width:
+        38px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(33, 47, 61, 0.88);
+
+    color:
+        white;
+
+    font-weight:
+        bold;
+
+    font-size:
+        0.95rem;
+}
+
+.texto-pregunta {
+
+    padding-top:
+        7px;
+
+    font-size:
+        1.06rem;
+
+    font-weight:
+        600;
+
+    line-height:
+        1.5;
+}
+
+
+/* =========================================================
+   TIPO DE PREGUNTA
+========================================================= */
+
+.tipo-pregunta {
+
+    display:
+        inline-block;
+
+    margin-top:
+        16px;
+
+    padding:
+        6px 11px;
+
+    border-radius:
+        8px;
+
+    background:
+        rgba(52, 73, 94, 0.12);
+
+    font-size:
+        0.8rem;
+
+    font-weight:
+        600;
+
+    color:
+        #34495e;
+}
+
+
+/* =========================================================
+   EXPRESIÓN MATEMÁTICA
+========================================================= */
+
+.expresion-matematica {
+
+    margin:
+        20px 0;
+
+    padding:
+        22px;
+
+    text-align:
+        center;
+
+    background:
+        rgba(255, 255, 255, 0.5);
+
+    border-radius:
+        12px;
+
+    font-family:
+        "Cambria Math",
+        "Times New Roman",
+        serif;
+
+    font-size:
+        1.35rem;
+
+    color:
+        #1f2d3d;
+
+    overflow-x:
+        auto;
+}
+
+
+/* =========================================================
+   OPCIONES
+========================================================= */
+
+.opciones-pregunta {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        12px;
+}
+
+.opcion-respuesta {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    min-height:
+        58px;
+
+    padding:
+        12px 15px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(255, 255, 255, 0.55);
+
+    border:
+        2px solid transparent;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        border 0.25s ease;
+}
+
+.opcion-respuesta:hover {
+
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    transform:
+        translateY(-2px);
+}
+
+.opcion-respuesta input {
+
+    display:
+        none;
+}
+
+.letra-opcion {
+
+    width:
+        32px;
+
+    height:
+        32px;
+
+    min-width:
+        32px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    margin-right:
+        12px;
+
+    background:
+        rgba(44, 62, 80, 0.15);
+
+    font-weight:
+        bold;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.opcion-respuesta.seleccionada {
+
+    border-color:
+        #34495e;
+
+    background:
+        rgba(236, 240, 241, 0.9);
+}
+
+.opcion-respuesta.seleccionada
+.letra-opcion {
+
+    background:
+        #34495e;
+
+    color:
+        white;
+}
+
+
+/* =========================================================
+   CORRECTA
+========================================================= */
+
+.opcion-respuesta.correcta {
+
+    background:
+        rgba(39, 174, 96, 0.22) !important;
+
+    border-color:
+        #27ae60 !important;
+
+    color:
+        #176b3a;
+}
+
+.opcion-respuesta.correcta
+.letra-opcion {
+
+    background:
+        #27ae60;
+
+    color:
+        white;
+}
+
+
+/* =========================================================
+   INCORRECTA
+========================================================= */
+
+.opcion-respuesta.incorrecta {
+
+    background:
+        rgba(231, 76, 60, 0.22) !important;
+
+    border-color:
+        #e74c3c !important;
+
+    color:
+        #922b21;
+}
+
+.opcion-respuesta.incorrecta
+.letra-opcion {
+
+    background:
+        #e74c3c;
+
+    color:
+        white;
+}
+
+
+/* =========================================================
+   BOTÓN EVALUAR
+========================================================= */
+
+.contenedor-evaluar {
+
+    text-align:
+        center;
+
+    margin-top:
+        35px;
+}
+
+.btn-evaluar {
+
+    padding:
+        15px 45px;
+
+    border:
+        none;
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(33, 47, 61, 0.92);
+
+    color:
+        white;
+
+    font-size:
+        1.05rem;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.btn-evaluar:hover {
+
+    transform:
+        translateY(-3px);
+
+    background:
+        rgba(44, 62, 80, 1);
+}
+
+
+/* =========================================================
+   MODALES
+========================================================= */
+
+.modal-examen {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    display:
+        none;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding:
+        20px;
+
+    background:
+        rgba(0, 0, 0, 0.55);
+
+    backdrop-filter:
+        blur(5px);
+
+    -webkit-backdrop-filter:
+        blur(5px);
+
+    z-index:
+        9999;
+}
+
+.modal-examen.visible {
+
+    display:
+        flex;
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+.resultado-contenido {
+
+    width:
+        min(500px, 100%);
+
+    padding:
+        35px;
+
+    text-align:
+        center;
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.35);
+
+    animation:
+        aparecerResultado 0.35s ease;
+}
+
+@keyframes aparecerResultado {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            scale(0.85);
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            scale(1);
+    }
+}
+
+.icono-resultado {
+
+    width:
+        65px;
+
+    height:
+        65px;
+
+    margin:
+        0 auto 15px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    color:
+        white;
+
+    font-size:
+        2rem;
+
+    font-weight:
+        bold;
+}
+
+.texto-puntuacion {
+
+    margin-bottom:
+        0;
+
+    color:
+        #566573;
+}
+
+.puntuacion-final {
+
+    font-size:
+        3.6rem;
+
+    font-weight:
+        bold;
+
+    margin:
+        5px 0 10px;
+}
+
+.mensaje-resultado {
+
+    min-height:
+        45px;
+
+    line-height:
+        1.5;
+
+    color:
+        #566573;
+}
+
+
+/* =========================================================
+   COLORES DEL RESULTADO
+========================================================= */
+
+.resultado-rojo
+.icono-resultado {
+
+    background:
+        #e74c3c;
+}
+
+.resultado-rojo
+.puntuacion-final {
+
+    color:
+        #e74c3c;
+}
+
+
+.resultado-amarillo
+.icono-resultado {
+
+    background:
+        #f1c40f;
+}
+
+.resultado-amarillo
+.puntuacion-final {
+
+    color:
+        #d4ac0d;
+}
+
+
+.resultado-verde
+.icono-resultado {
+
+    background:
+        #27ae60;
+}
+
+.resultado-verde
+.puntuacion-final {
+
+    color:
+        #27ae60;
+}
+
+
+/* =========================================================
+   BOTONES DEL RESULTADO
+========================================================= */
+
+.botones-resultado {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        10px;
+
+    margin-top:
+        20px;
+}
+
+.btn-resultado {
+
+    padding:
+        12px;
+
+    border:
+        none;
+
+    border-radius:
+        10px;
+
+    cursor:
+        pointer;
+
+    font-size:
+        0.95rem;
+
+    font-weight:
+        600;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.btn-resultado:hover {
+
+    transform:
+        translateY(-2px);
+
+    opacity:
+        0.9;
+}
+
+.btn-respuestas {
+
+    background:
+        #34495e;
+
+    color:
+        white;
+}
+
+.btn-intentar {
+
+    background:
+        #2c3e50;
+
+    color:
+        white;
+}
+
+.btn-guardar {
+
+    background:
+        #95a5a6;
+
+    color:
+        white;
+}
+
+
+/* =========================================================
+   MODAL RESPUESTAS
+========================================================= */
+
+.respuestas-contenido {
+
+    width:
+        min(850px, 100%);
+
+    max-height:
+        90vh;
+
+    overflow-y:
+        auto;
+
+    padding:
+        30px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border-radius:
+        20px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.cabecera-respuestas {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+    margin-bottom:
+        25px;
+}
+
+.cabecera-respuestas h2 {
+
+    margin:
+        0;
+
+    color:
+        #2c3e50;
+}
+
+.cabecera-respuestas p {
+
+    margin-top:
+        7px;
+
+    color:
+        #566573;
+}
+
+.btn-cerrar {
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    font-size:
+        2rem;
+
+    line-height:
+        1;
+
+    cursor:
+        pointer;
+
+    color:
+        #566573;
+}
+
+
+/* =========================================================
+   RESUMEN DE RESPUESTAS
+========================================================= */
+
+.resumen-pregunta {
+
+    padding:
+        18px;
+
+    margin-bottom:
+        15px;
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(236, 240, 241, 0.7);
+
+    border-left:
+        6px solid #95a5a6;
+}
+
+.resumen-pregunta.correcta {
+
+    border-left-color:
+        #27ae60;
+}
+
+.resumen-pregunta.incorrecta {
+
+    border-left-color:
+        #e74c3c;
+}
+
+.resumen-pregunta h4 {
+
+    margin:
+        0 0 10px;
+
+    color:
+        #2c3e50;
+}
+
+.respuesta-usuario {
+
+    color:
+        #e74c3c;
+
+    font-weight:
+        600;
+}
+
+.respuesta-correcta {
+
+    color:
+        #27ae60;
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================================
+   BOTÓN REGRESAR RESULTADO
+========================================================= */
+
+.btn-regresar-resultado {
+
+    width:
+        100%;
+
+    margin-top:
+        20px;
+
+    padding:
+        13px;
+
+    border:
+        none;
+
+    border-radius:
+        12px;
+
+    background:
+        #2c3e50;
+
+    color:
+        white;
+
+    cursor:
+        pointer;
+
+    font-weight:
+        600;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .opciones-pregunta {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .titulo-examen {
+
+        justify-content:
+            flex-start;
+    }
+
+    .titulo-examen h2 {
+
+        font-size:
+            1.3rem;
+    }
+
+    .titulo-examen p {
+
+        font-size:
+            0.85rem;
+    }
+
+    .tarjeta-pregunta {
+
+        padding:
+            18px;
+    }
+
+    .expresion-matematica {
+
+        font-size:
+            1.15rem;
+    }
+
+    .resultado-contenido {
+
+        padding:
+            25px 20px;
+    }
+
+}

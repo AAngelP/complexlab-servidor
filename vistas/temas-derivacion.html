@@ -1,0 +1,184 @@
+<div class="contenedor-temas">
+    <div class="contenedor-cabecera-temas" style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+        <button class="btn-regresar" onclick="regresarACapitulos()">← Volver a Módulos</button>
+        <button class="btn-tema btn-test" style="width:auto; flex:0 0 auto; min-width:0; padding:8px 22px; margin-left:auto;" onclick="abrirTestProximamente(event)">Test</button>
+    </div>
+    <h2>Temas de Derivación Compleja</h2>
+    <div class="grid-temas">
+        <!-- Tarjeta 1: Bases de Derivación Compleja -->
+        <div class="tarjeta-tema" style="background: rgba(74, 189, 172, 0.2);" onclick="redirigirTema(event, 'bases-derivacion')">
+            <div class="contenido-tema">
+                <h3>Bases de Derivación Compleja</h3>
+                <p class="desc">Definición formal de límite en el plano complejo, continuidad de funciones f(z) y reglas elementales de derivación.</p>
+            </div>
+            <div class="acciones-tema">
+                <button class="btn-tema btn-sim" onclick="irASimulacionTema(event, '/api/cargar-juego/PON-AQUI-TU-RUTA-1')">Simulación</button>
+            </div>
+        </div>
+
+        <!-- Tarjeta 2: Derivación Nivel Medio -->
+        <div class="tarjeta-tema" style="background: rgba(52, 152, 219, 0.2);" onclick="redirigirTema(event, 'derivacion-nivel-medio')">
+            <div class="contenido-tema">
+                <h3>Derivación Nivel Medio</h3>
+                <p class="desc">Regla de la cadena, derivación de funciones exponenciales, trigonométricas, hiperbólicas y logaritmo complejo.</p>
+            </div>
+            <div class="acciones-tema">
+                <button class="btn-tema btn-sim" onclick="irASimulacionTema(event, '/api/cargar-juego/PON-AQUI-TU-RUTA-2')">Simulación</button>
+            </div>
+        </div>
+
+        <!-- Tarjeta 3: Cauchy-Riemann, Analiticidad y Laplace -->
+        <div class="tarjeta-tema" style="background: rgba(241, 196, 15, 0.2);" onclick="redirigirTema(event, 'cauchy-riemann-laplace')">
+            <div class="contenido-tema">
+                <h3>Cauchy-Riemann, Analiticidad y Laplace</h3>
+                <p class="desc">Ecuaciones de Cauchy-Riemann, criterios para comprobar funciones analíticas y verificación de funciones armónicas con la ecuación de Laplace.</p>
+            </div>
+            <div class="acciones-tema">
+                <button class="btn-tema btn-sim" onclick="irASimulacionTema(event, '/api/cargar-juego/PON-AQUI-TU-RUTA-3')">Simulación</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pantalla-detalle-tema" class="pantalla-detalle-tema oculto"></div>
+</div>
+
+<script>
+    function redirigirTema(event, idTema) {
+        cargarExplicacionTeorica(idTema);
+    }
+
+    // Carga la simulación dentro de la misma pantalla (igual que el menú de Simulaciones).
+    // Se llama irASimulacionTema para no pisar la función global irASimulacion de la app.
+    async function irASimulacionTema(event, urlSim) {
+        event.stopPropagation();
+        try {
+            const res = await fetch('http://localhost:5000' + urlSim);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const datos = await res.json();
+
+            const areaDetalle = document.getElementById('pantalla-detalle-tema');
+            areaDetalle.innerHTML =
+                '<div style="padding:10px 10px 0;"><button class="btn-regresar" onclick="regresarAlasTarjetas()">← Volver a Temas</button></div>' +
+                datos.html;
+
+            document.querySelector('.grid-temas').style.display = 'none';
+            document.querySelector('.contenedor-temas > h2').style.display = 'none';
+            document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
+            areaDetalle.classList.remove('oculto');
+        } catch (error) {
+            console.error('Error al cargar la simulación:', error);
+            alert('No se pudo cargar la simulación.');
+        }
+    }
+
+    // ============================================================
+    // FUNCIÓN EXAMEN (DERIVACIÓN COMPLEJA)
+    // ============================================================
+    async function abrirTestProximamente(event) {
+        event.stopPropagation();
+        
+        try {
+            const respuesta = await fetch('http://localhost:5000/api/examen-derivacion');
+            if (!respuesta.ok) throw new Error('No se pudo cargar el examen.');
+            
+            const datos = await respuesta.json();
+            const areaDetalle = document.getElementById('pantalla-detalle-tema');
+            
+            if (datos.cssUrl) {
+                const cssAnterior = document.getElementById('css-examen-derivacion');
+                if (cssAnterior) cssAnterior.remove();
+
+                const nuevoCss = document.createElement('link');
+                nuevoCss.id = 'css-examen-derivacion';
+                nuevoCss.rel = 'stylesheet';
+                nuevoCss.href = datos.cssUrl;
+                document.head.appendChild(nuevoCss);
+            }
+
+            if (window.MathJax && window.MathJax.typesetClear) {
+                window.MathJax.typesetClear([areaDetalle]);
+            }
+
+            areaDetalle.innerHTML = datos.html;
+            
+            document.querySelector('.grid-temas').style.display = 'none';
+            document.querySelector('.contenedor-temas > h2').style.display = 'none';
+            document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
+            areaDetalle.classList.remove('oculto');
+            
+            const scriptsInternos = areaDetalle.querySelectorAll('script');
+            scriptsInternos.forEach(scriptViejo => {
+                const scriptNuevo = document.createElement('script');
+                if (scriptViejo.src) {
+                    Array.from(scriptViejo.attributes).forEach(attr => {
+                        scriptNuevo.setAttribute(attr.name, attr.value);
+                    });
+                } else {
+                    scriptNuevo.text = scriptViejo.text;
+                }
+                document.body.appendChild(scriptNuevo).parentNode.removeChild(scriptNuevo);
+            });
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([areaDetalle])
+                    .catch((err) => console.log("Error renderizando MathJax en Examen: ", err));
+            }
+
+        } catch(error) {
+            console.error("Error al cargar el examen:", error);
+            alert("No se pudo cargar el examen de Derivación Compleja.");
+        }
+    }
+
+    async function cargarExplicacionTeorica(idTema) {
+        try {
+            const res = await fetch(`http://localhost:5000/api/contenido-tema/${idTema}`);
+            const datos = await res.json();
+            
+            const areaDetalle = document.getElementById('pantalla-detalle-tema');
+            
+            if (window.MathJax && window.MathJax.typesetClear) {
+                window.MathJax.typesetClear([areaDetalle]);
+            }
+
+            areaDetalle.innerHTML = datos.html;
+            
+            document.querySelector('.grid-temas').style.display = 'none';
+            document.querySelector('.contenedor-temas > h2').style.display = 'none';
+            document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
+            areaDetalle.classList.remove('oculto');
+            
+            const scriptsInternos = areaDetalle.querySelectorAll('script');
+            scriptsInternos.forEach(scriptViejo => {
+                const scriptNuevo = document.createElement('script');
+                if (scriptViejo.src) {
+                    Array.from(scriptViejo.attributes).forEach(attr => {
+                        scriptNuevo.setAttribute(attr.name, attr.value);
+                    });
+                } else {
+                    scriptNuevo.text = scriptViejo.text;
+                }
+                document.body.appendChild(scriptNuevo).parentNode.removeChild(scriptNuevo);
+            });
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([areaDetalle])
+                    .catch((err) => console.log("Error renderizando MathJax: ", err));
+            }
+
+        } catch(e) {
+            console.error("Error al cargar la teoría:", e);
+        }
+    }
+
+    function regresarAlasTarjetas() {
+        document.getElementById('pantalla-detalle-tema').classList.add('oculto');
+        document.querySelector('.grid-temas').style.display = 'flex';
+        document.querySelector('.contenedor-temas > h2').style.display = 'block';
+        document.querySelector('.contenedor-cabecera-temas').style.display = 'flex';
+    }
+
+    function regresarACapitulos() {
+        document.getElementById('btn-variable-compleja').click();
+    }
+</script>

@@ -1,0 +1,118 @@
+<div class="contenedor-explicacion layout-split">
+    <div class="panel-teorico">
+        <div class="alineacion-izquierda">
+            <button class="btn-regresar-interna" onclick="regresarAlasTarjetas()">← Volver a Temas</button>
+        </div>
+        <h2>Multiplicación Compleja</h2>
+        
+        <div class="bloque-requisito">
+            <h5>Conocimientos Previos</h5>
+            <ul>
+                <li>
+                    Propiedad distributiva algebraica clásica.
+                </li>
+                <li>
+                    Identidad fundamental imaginaria: 
+                    <i>i</i><sup>2</sup> = -1
+                </li>
+            </ul>
+        </div>
+
+        <p class="parrafo-teoria">
+            Definición analítica formal en su representación binómica estándar. Multiplicar dos números complejos combina sus componentes de forma lineal y produce un efecto geométrico de rotación de sus ángulos y escala en sus magnitudes. Si definimos 
+            <i>z</i><sub>1</sub> = <i>a</i> + <i>b</i><i>i</i> y 
+            <i>z</i><sub>2</sub> = <i>c</i> + <i>d</i><i>i</i>, su ley operativa se unifica como:
+        </p>
+
+        <!-- Fórmula principal en MathML -->
+        <div class="formula" style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+            <math display="block">
+                <msub><mi>z</mi><mn>1</mn></msub>
+                <mo>·</mo>
+                <msub><mi>z</mi><mn>2</mn></msub>
+                <mo>=</mo>
+                <mo>(</mo>
+                <mi>a</mi><mi>c</mi>
+                <mo>−</mo>
+                <mi>b</mi><mi>d</mi>
+                <mo>)</mo>
+                <mo>+</mo>
+                <mo>(</mo>
+                <mi>a</mi><mi>d</mi>
+                <mo>+</mo>
+                <mi>b</mi><mi>c</mi>
+                <mo>)</mo>
+                <mi>i</mi>
+            </math>
+        </div>
+    </div>
+
+    <div class="panel-ejemplos">
+        <h3>Casos de Estudio Interactivos</h3>
+        
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 1: Producto Estándar Paso a Paso ▾</div>
+            <div class="acordeon-body">
+                <p>Sean <i>z</i><sub>1</sub> = 2 + 3<i>i</i> y <i>z</i><sub>2</sub> = 1 - 2<i>i</i>.</p>
+                
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Apliación de la propiedad distributiva:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mi>z</mi><mn>1</mn></msub>
+                        <mo>·</mo>
+                        <msub><mi>z</mi><mn>2</mn></msub>
+                        <mo>=</mo>
+                        <mo>(</mo><mn>2</mn><mo>)</mo><mo>(</mo><mn>1</mn><mo>)</mo>
+                        <mo>+</mo>
+                        <mo>(</mo><mn>2</mn><mo>)</mo><mo>(</mo><mo>−</mo><mn>2</mn><mi>i</mi><mo>)</mo>
+                        <mo>+</mo>
+                        <mo>(</mo><mn>3</mn><mi>i</mi><mo>)</mo><mo>(</mo><mn>1</mn><mo>)</mo>
+                        <mo>+</mo>
+                        <mo>(</mo><mn>3</mn><mi>i</mi><mo>)</mo><mo>(</mo><mo>−</mo><mn>2</mn><mi>i</mi><mo>)</mo>
+                    </math>
+                </div>
+
+                <p style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Reducción de términos e identidad de <math><msup><mi>i</mi><mn>2</mn></msup><mo>=</mo><mo>−</mo><mn>1</mn></math>:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <mo>=</mo>
+                        <mn>2</mn>
+                        <mo>−</mo>
+                        <mn>4</mn><mi>i</mi>
+                        <mo>+</mo>
+                        <mn>3</mn><mi>i</mi>
+                        <mo>−</mo>
+                        <mn>6</mn><mo>(</mo><msup><mi>i</mi><mn>2</mn></msup><mo>)</mo>
+                    </math>
+                </div>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <mo>=</mo>
+                        <mn>2</mn>
+                        <mo>−</mo>
+                        <mi>i</mi>
+                        <mo>−</mo>
+                        <mn>6</mn><mo>(</mo><mo>−</mo><mn>1</mn><mo>)</mo>
+                        <mo>=</mo>
+                        <mn>8</mn>
+                        <mo>−</mo>
+                        <mi>i</mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 2: Efecto Geométrico de Rotación ▾</div>
+            <div class="acordeon-body">
+                <p>Multiplicar por la unidad imaginaria pura <i>z</i> = <i>i</i> actúa como un operador que rota cualquier vector exactamente 90° en sentido antihorario dentro del plano complejo sin alterar su magnitud original.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAcordeon(elemento) {
+        elemento.classList.toggle('abierto');
+    }
+</script>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+}
+
+canvas{
+    display:block;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script>
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+class Particula {
+
+    constructor(x,y,radio,color,velx,vely){
+        this.x = x;
+        this.y = y;
+        this.radio = radio;
+        this.color = color;
+        this.velx = velx;
+        this.vely = vely;
+    }
+
+    dibujar(){
+
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.radio,0,Math.PI*2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+    }
+
+    actualizar(){
+
+        this.x += this.velx;
+        this.y += this.vely;
+
+        if(this.x < 0 || this.x > canvas.width){
+            this.velx *= -1;
+        }
+
+        if(this.y < 0 || this.y > canvas.height){
+            this.vely *= -1;
+        }
+
+        this.dibujar();
+    }
+}
+
+const particulas = [];
+
+for(let i=0;i<120;i++){
+
+    let radio = Math.random()*3+1;
+
+    particulas.push(
+        new Particula(
+            Math.random()*canvas.width,
+            Math.random()*canvas.height,
+            radio,
+            `hsl(${Math.random()*360},100%,60%)`,
+            (Math.random()-0.5)*1.5,
+            (Math.random()-0.5)*1.5
+        )
+    );
+}
+
+function unir(){
+
+    for(let a=0;a<particulas.length;a++){
+
+        for(let b=a;b<particulas.length;b++){
+
+            let dx = particulas[a].x - particulas[b].x;
+            let dy = particulas[a].y - particulas[b].y;
+
+            let distancia = Math.sqrt(dx*dx + dy*dy);
+
+            if(distancia < 120){
+
+                ctx.beginPath();
+
+                ctx.strokeStyle = `rgba(255,255,255,${1-distancia/120})`;
+
+                ctx.lineWidth = 0.5;
+
+                ctx.moveTo(particulas[a].x, particulas[a].y);
+
+                ctx.lineTo(particulas[b].x, particulas[b].y);
+
+                ctx.stroke();
+
+            }
+        }
+    }
+}
+
+function animar(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particulas.forEach(p => p.actualizar());
+
+    unir();
+
+    requestAnimationFrame(animar);
+}
+
+animar();
+
+</script>
+
+</body>
+</html>

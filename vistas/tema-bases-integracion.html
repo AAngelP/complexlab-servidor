@@ -1,0 +1,153 @@
+<div class="contenedor-explicacion layout-split">
+    <div class="panel-teorico">
+        <div class="alineacion-izquierda">
+            <button class="btn-regresar-interna" onclick="regresarAlasTarjetas()">← Volver a Temas</button>
+        </div>
+        <h2>Bases de Integración Compleja</h2>
+        
+        <div class="bloque-requisito">
+            <h5>Conocimientos Previos</h5>
+            <ul>
+                <li>Parametrización de curvas suaves en el plano: <i>z</i>(<i>t</i>) = <i>x</i>(<i>t</i>) + <i>i y</i>(<i>t</i>) para <i>t</i> &isin; [<i>a</i>, <i>b</i>].</li>
+                <li>Derivación compleja de curvas: <i>z'</i>(<i>t</i>) = <i>x'</i>(<i>t</i>) + <i>i y'</i>(<i>t</i>).</li>
+                <li>Integrales definidas de funciones reales de una variable.</li>
+            </ul>
+        </div>
+
+        <p class="parrafo-teoria">
+            Sea <i>C</i> una curva suave parametrizada por <i>z</i>(<i>t</i>) en el intervalo [<i>a</i>, <i>b</i>], y sea <i>f</i>(<i>z</i>) una función continua sobre <i>C</i>. La <strong>integral de contorno (o de línea)</strong> se define como:
+        </p>
+
+        <div class="formula" style="text-align: center; margin: 15px 0; font-size: 1.2em;">
+            <math display="block">
+                <msub><mo>&int;</mo><mi>C</mi></msub>
+                <mi>f</mi><mo>(</mo><mi>z</mi><mo>)</mo><mspace width="0.2em"/><mi>d</mi><mi>z</mi>
+                <mo>=</mo>
+                <msubsup><mo>&int;</mo><mi>a</mi><mi>b</mi></msubsup>
+                <mi>f</mi><mo>(</mo><mi>z</mi><mo>(</mo><mi>t</mi><mo>)</mo><mo>)</mo>
+                <mo>&sdot;</mo>
+                <msup><mi>z</mi><mo>'</mo></msup><mo>(</mo><mi>t</mi><mo>)</mo><mspace width="0.2em"/><mi>d</mi><mi>t</mi>
+            </math>
+        </div>
+
+        <div class="bloque-requisito">
+            <h5>Propiedades y Desigualdad ML (Acotación)</h5>
+            <ul>
+                <li><strong>Linealidad:</strong> &int;<sub><i>C</i></sub> [&alpha;<i>f</i>(<i>z</i>) + &beta;<i>g</i>(<i>z</i>)] <i>dz</i> = &alpha;&int;<sub><i>C</i></sub> <i>f</i>(<i>z</i>) <i>dz</i> + &beta;&int;<sub><i>C</i></sub> <i>g</i>(<i>z</i>) <i>dz</i>.</li>
+                <li><strong>Inversión de sentido:</strong> &int;<sub>&minus;<i>C</i></sub> <i>f</i>(<i>z</i>) <i>dz</i> = &minus;&int;<sub><i>C</i></sub> <i>f</i>(<i>z</i>) <i>dz</i>.</li>
+                <li><strong>Teorema Fundamental:</strong> Si <i>f</i>(<i>z</i>) tiene una antiderivada <i>F</i>(<i>z</i>) analítica en un dominio <i>D</i> que contiene a <i>C</i> (desde <i>z</i><sub>1</sub> hasta <i>z</i><sub>2</sub>), entonces &int;<sub><i>C</i></sub> <i>f</i>(<i>z</i>) <i>dz</i> = <i>F</i>(<i>z</i><sub>2</sub>) &minus; <i>F</i>(<i>z</i><sub>1</sub>).</li>
+                <li><strong>Desigualdad ML:</strong> Si |<i>f</i>(<i>z</i>)| &le; <i>M</i> en todo <i>C</i> y <i>L</i> es la longitud de arco de <i>C</i>, entonces:</li>
+            </ul>
+            <div style="text-align: center; margin-top: 8px; font-size: 1.15em;">
+                <math display="block">
+                    <mrow><mo>|</mo><msub><mo>&int;</mo><mi>C</mi></msub><mi>f</mi><mo>(</mo><mi>z</mi><mo>)</mo><mspace width="0.2em"/><mi>d</mi><mi>z</mi><mo>|</mo></mrow>
+                    <mo>&le;</mo>
+                    <mi>M</mi><mo>&sdot;</mo><mi>L</mi>
+                </math>
+            </div>
+        </div>
+    </div>
+    <div class="panel-ejemplos">
+        <h3>Casos de Estudio Interactivos</h3>
+        
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 1: Integral sobre Segmento Recto por Parametrización ▾</div>
+            <div class="acordeon-body">
+                <p>Evaluar &int;<sub><i>C</i></sub> <span style="text-decoration: overline;"><i>z</i></span> <i>dz</i> donde <i>C</i> es el segmento de recta desde <i>z</i> = 0 hasta <i>z</i> = 1 + <i>i</i>:</p>
+                <p><strong>Paso 1:</strong> Parametrizamos: <i>z</i>(<i>t</i>) = <i>t</i> + <i>it</i> = (1 + <i>i</i>)<i>t</i> para <i>t</i> &isin;. Entonces <i>z'</i>(<i>t</i>) = 1 + <i>i</i> y <span style="text-decoration: overline;"><i>z</i>(<i>t</i>)</span> = (1 &minus; <i>i</i>)<i>t</i>.</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mo>&int;</mo><mi>C</mi></msub><mover><mi>z</mi><mo>&OverBar;</mo></mover><mspace width="0.2em"/><mi>d</mi><mi>z</mi>
+                        <mo>=</mo>
+                        <msubsup><mo>&int;</mo><mn>0</mn><mn>1</mn></msubsup>
+                        <mo>(</mo><mn>1</mn><mo>&minus;</mo><mi>i</mi><mo>)</mo><mi>t</mi><mo>&sdot;</mo><mo>(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo>)</mo><mspace width="0.2em"/><mi>d</mi><mi>t</mi>
+                        <mo>=</mo>
+                        <msubsup><mo>&int;</mo><mn>0</mn><mn>1</mn></msubsup>
+                        <mn>2</mn><mi>t</mi><mspace width="0.2em"/><mi>d</mi><mi>t</mi>
+                        <mo>=</mo>
+                        <msubsup><mrow><mo>[</mo><msup><mi>t</mi><mn>2</mn></msup><mo>]</mo></mrow><mn>0</mn><mn>1</mn></msubsup>
+                        <mo>=</mo>
+                        <mn>1</mn>
+                    </math>
+                </div>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 2: Integral sobre Circunferencia Unitaria (&int;<sub><i>C</i></sub> 1/<i>z</i> <i>dz</i>) ▾</div>
+            <div class="acordeon-body">
+                <p>Calcular &int;<sub><i>C</i></sub> (1 / <i>z</i>) <i>dz</i> donde <i>C</i> es el círculo unitario |<i>z</i>| = 1 recorrido en sentido antihorario:</p>
+                <p><strong>Parametrización:</strong> <i>z</i>(&theta;) = <i>e<sup>i&theta;</sup></i> con &theta; &isin; [0, 2&pi;]. Derivando: <i>z'</i>(&theta;) = <i>i e<sup>i&theta;</sup></i>.</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msub><mo>&oint;</mo><mrow><mo>|</mo><mi>z</mi><mo>|</mo><mo>=</mo><mn>1</mn></mrow></msub>
+                        <mfrac><mn>1</mn><mi>z</mi></mfrac><mspace width="0.2em"/><mi>d</mi><mi>z</mi>
+                        <mo>=</mo>
+                        <msubsup><mo>&int;</mo><mn>0</mn><mrow><mn>2</mn><mi>&pi;</mi></mrow></msubsup>
+                        <mfrac><mn>1</mn><msup><mi>e</mi><mrow><mi>i</mi><mi>&theta;</mi></mrow></msup></mfrac>
+                        <mo>&sdot;</mo>
+                        <mi>i</mi><msup><mi>e</mi><mrow><mi>i</mi><mi>&theta;</mi></mrow></msup><mspace width="0.2em"/><mi>d</mi><mi>&theta;</mi>
+                        <mo>=</mo>
+                        <msubsup><mo>&int;</mo><mn>0</mn><mrow><mn>2</mn><mi>&pi;</mi></mrow></msubsup>
+                        <mi>i</mi><mspace width="0.2em"/><mi>d</mi><mi>&theta;</mi>
+                        <mo>=</mo>
+                        <mn>2</mn><mi>&pi;</mi><mi>i</mi>
+                    </math>
+                </div>
+                <p>Este es un resultado fundamental: a pesar de ser una curva cerrada, la integral no es cero porque 1/<i>z</i> tiene una singularidad en <i>z</i> = 0.</p>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 3: Uso de Antiderivada (Independencia de Trayectoria) ▾</div>
+            <div class="acordeon-body">
+                <p>Calcular &int;<sub><i>C</i></sub> (3<i>z</i><sup>2</sup> + 2<i>z</i>) <i>dz</i> a lo largo de cualquier curva suave desde <i>z</i><sub>1</sub> = 1 hasta <i>z</i><sub>2</sub> = 2 + <i>i</i>:</p>
+                <p>Como <i>f</i>(<i>z</i>) = 3<i>z</i><sup>2</sup> + 2<i>z</i> es entera, admite antiderivada global <i>F</i>(<i>z</i>) = <i>z</i><sup>3</sup> + <i>z</i><sup>2</sup>:</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <msubsup><mo>&int;</mo><mn>1</mn><mrow><mn>2</mn><mo>+</mo><mi>i</mi></mrow></msubsup>
+                        <mo>(</mo><mn>3</mn><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><mn>2</mn><mi>z</mi><mo>)</mo><mspace width="0.2em"/><mi>d</mi><mi>z</mi>
+                        <mo>=</mo>
+                        <mi>F</mi><mo>(</mo><mn>2</mn><mo>+</mo><mi>i</mi><mo>)</mo><mo>&minus;</mo><mi>F</mi><mo>(</mo><mn>1</mn><mo>)</mo>
+                    </math>
+                    <math display="block" style="margin-top: 8px;">
+                        <mo>=</mo>
+                        <mo>[</mo><msup><mrow><mo>(</mo><mn>2</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mn>3</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mn>2</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mn>2</mn></msup><mo>]</mo>
+                        <mo>&minus;</mo>
+                        <mo>(</mo><mn>1</mn><mo>+</mo><mn>1</mn><mo>)</mo>
+                        <mo>=</mo>
+                        <mo>[</mo><mo>(</mo><mn>2</mn><mo>+</mo><mn>11</mn><mi>i</mi><mo>)</mo><mo>+</mo><mo>(</mo><mn>3</mn><mo>+</mo><mn>4</mn><mi>i</mi><mo>)</mo><mo>]</mo><mo>&minus;</mo><mn>2</mn>
+                        <mo>=</mo>
+                        <mn>3</mn><mo>+</mo><mn>15</mn><mi>i</mi>
+                    </math>
+                </div>
+            </div>
+        </div>
+
+        <div class="acordeon" onclick="toggleAcordeon(this)">
+            <div class="acordeon-header">Caso 4: Acotación mediante Desigualdad ML ▾</div>
+            <div class="acordeon-body">
+                <p>Acotar el módulo de &int;<sub><i>C</i></sub> (1 / (<i>z</i><sup>2</sup> + 1)) <i>dz</i> donde <i>C</i> es el arco superior de |<i>z</i>| = 2 desde <i>z</i> = 2 hasta <i>z</i> = &minus;2:</p>
+                <p><strong>1. Longitud <i>L</i>:</strong> Semicircunferencia de radio <i>R</i> = 2 &rArr; <i>L</i> = &pi;<i>R</i> = 2&pi;.</p>
+                <p><strong>2. Cota superior <i>M</i>:</strong> Por desigualdad triangular inversa, |<i>z</i><sup>2</sup> + 1| &ge; |<i>z</i>|<sup>2</sup> &minus; 1 = 2<sup>2</sup> &minus; 1 = 3. Por tanto, |1 / (<i>z</i><sup>2</sup> + 1)| &le; 1/3 = <i>M</i>.</p>
+                <div class="desarrollo" style="text-align: center; margin: 10px 0;">
+                    <math display="block">
+                        <mrow><mo>|</mo><msub><mo>&int;</mo><mi>C</mi></msub><mfrac><mrow><mi>d</mi><mi>z</mi></mrow><mrow><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><mn>1</mn></mrow></mfrac><mo>|</mo></mrow>
+                        <mo>&le;</mo>
+                        <mi>M</mi><mo>&sdot;</mo><mi>L</mi>
+                        <mo>=</mo>
+                        <mfrac><mn>1</mn><mn>3</mn></mfrac><mo>&sdot;</mo><mn>2</mn><mi>&pi;</mi>
+                        <mo>=</mo>
+                        <mfrac><mrow><mn>2</mn><mi>&pi;</mi></mrow><mn>3</mn></mfrac>
+                    </math>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAcordeon(elemento) {
+        elemento.classList.toggle('abierto');
+    }
+</script>

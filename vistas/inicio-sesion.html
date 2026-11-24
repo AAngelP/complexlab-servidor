@@ -1,0 +1,62 @@
+
+<section class="auth-page">
+    <div class="auth-card">
+        <a href="#" class="auth-brand" onclick="volverAlInicio(event)">
+            ComplexLab
+        </a>
+
+        <div class="auth-icon">∑</div>
+
+        <h1>Bienvenido de nuevo</h1>
+        <p class="auth-subtitle">
+            Inicia sesión para continuar explorando.
+        </p>
+
+        <form id="form-login" novalidate>
+            <div class="auth-field">
+                <label for="login-usuario">Nombre de usuario</label>
+                <input
+                    type="text"
+                    id="login-usuario"
+                    name="usuario"
+                    placeholder="Ingresa tu usuario"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="auth-field">
+                <label for="login-password">Contraseña</label>
+                <input
+                    type="password"
+                    id="login-password"
+                    name="password"
+                    placeholder="Ingresa tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <p id="login-mensaje" class="auth-message"
+               role="alert" aria-live="polite"></p>
+
+            <button type="submit" class="auth-button">
+                Iniciar sesión
+            </button>
+        </form>
+
+        <div class="auth-divider">
+            <span>¿Aún no tienes cuenta?</span>
+        </div>
+
+        <button type="button" id="ir-registro"
+                class="auth-secondary-button">
+            Crear una cuenta
+        </button>
+
+        <button type="button" class="auth-back"
+                onclick="volverAlInicio()">
+            ← Volver al inicio
+        </button>
+    </div>
+</section>
