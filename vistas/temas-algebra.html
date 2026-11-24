@@ -1,159 +1,248 @@
+
 <div class="contenedor-temas">
     <div class="contenedor-cabecera-temas" style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
         <button class="btn-regresar" onclick="regresarACapitulos()">← Volver a Módulos</button>
         <button class="btn-tema btn-test" style="width:auto; flex:0 0 auto; min-width:0; padding:8px 22px; margin-left:auto;" onclick="abrirTestProximamente(event)">Test</button>
     </div>
+
     <h2>Temas de Álgebra Compleja</h2>
+
     <div class="grid-temas">
         {{tarjetas_temas}}
     </div>
-    
+
     <div id="pantalla-detalle-tema" class="pantalla-detalle-tema oculto"></div>
 </div>
 
 <script>
-    function redirigirTema(event, idTema) {
-        cargarExplicacionTeorica(idTema);
+    // ============================================================
+    // CONFIGURACIÓN DE LA API
+    // ============================================================
+
+    const API_BASE_COMPLEXLAB = 'https://complexlab-servidor.onrender.com';
+
+    // Convierte rutas relativas en direcciones completas de Render.
+    function resolverUrlServidor(url) {
+        return new URL(url, API_BASE_COMPLEXLAB).href;
     }
 
-    // Carga la simulación dentro de la misma pantalla (igual que el menú de Simulaciones).
-    // Se llama irASimulacionTema para no pisar la función global irASimulacion de la app.
+    // ============================================================
+    // PROCESADOR DE SCRIPTS
+    // Permite ejecutar scripts internos y externos del contenido.
+    // ============================================================
+
+    function ejecutarScripts(area) {
+        const scripts = area.querySelectorAll('script');
+
+        scripts.forEach(scriptViejo => {
+            const scriptNuevo = document.createElement('script');
+
+            // Copiar atributos del script original.
+            Array.from(scriptViejo.attributes).forEach(attr => {
+                if (attr.name === 'src') {
+                    scriptNuevo.src = resolverUrlServidor(attr.value);
+                } else {
+                    scriptNuevo.setAttribute(attr.name, attr.value);
+                }
+            });
+
+            // Copiar código JavaScript interno.
+            if (!scriptViejo.src) {
+                scriptNuevo.textContent = scriptViejo.textContent;
+            }
+
+            // Reemplazar el script para que el navegador lo ejecute.
+            scriptViejo.replaceWith(scriptNuevo);
+        });
+    }
+
+    // ============================================================
+    // MOSTRAR UNA SIMULACIÓN
+    // ============================================================
+
     async function irASimulacionTema(event, urlSim) {
         event.stopPropagation();
+
         try {
-            const res = await fetch('http://localhost:5000' + urlSim);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const datos = await res.json();
+            const url = resolverUrlServidor(urlSim);
+
+            const respuesta = await fetch(url);
+
+            if (!respuesta.ok) {
+                throw new Error('HTTP ' + respuesta.status);
+            }
+
+            const datos = await respuesta.json();
 
             const areaDetalle = document.getElementById('pantalla-detalle-tema');
+
             areaDetalle.innerHTML =
-                '<div style="padding:10px 10px 0;"><button class="btn-regresar" onclick="regresarAlasTarjetas()">← Volver a Temas</button></div>' +
+                '<div style="padding:10px 10px 0;">' +
+                    '<button class="btn-regresar" onclick="regresarAlasTarjetas()">← Volver a Temas</button>' +
+                '</div>' +
                 datos.html;
 
+            // Ocultar las tarjetas y mostrar el contenido.
             document.querySelector('.grid-temas').style.display = 'none';
             document.querySelector('.contenedor-temas > h2').style.display = 'none';
             document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
+
             areaDetalle.classList.remove('oculto');
+
+            // Renderizar expresiones matemáticas.
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                await window.MathJax.typesetPromise([areaDetalle]);
+            }
+
         } catch (error) {
             console.error('Error al cargar la simulación:', error);
-            alert('No se pudo cargar la simulación.');
+            alert('No se pudo cargar la simulación. Comprueba la conexión con el servidor.');
         }
     }
 
     // ============================================================
-    // FUNCIÓN EXAMEN (CORREGIDA PARA CARGAR JS EXTERNOS DEL SERVER)
+    // FUNCIÓN EXAMEN DE ÁLGEBRA COMPLEJA
     // ============================================================
+
     async function abrirTestProximamente(event) {
         event.stopPropagation();
-        
+
         try {
-            const respuesta = await fetch('http://localhost:5000/api/examen-algebra');
-            if (!respuesta.ok) throw new Error('No se pudo cargar el examen.');
-            
+            const respuesta = await fetch(
+                resolverUrlServidor('/api/examen-algebra')
+            );
+
+            if (!respuesta.ok) {
+                throw new Error('HTTP ' + respuesta.status);
+            }
+
             const datos = await respuesta.json();
+
             const areaDetalle = document.getElementById('pantalla-detalle-tema');
-            
+
+            // Cargar CSS del examen.
             if (datos.cssUrl) {
                 const cssAnterior = document.getElementById('css-examen-algebra');
-                if (cssAnterior) cssAnterior.remove();
+
+                if (cssAnterior) {
+                    cssAnterior.remove();
+                }
 
                 const nuevoCss = document.createElement('link');
                 nuevoCss.id = 'css-examen-algebra';
                 nuevoCss.rel = 'stylesheet';
-                nuevoCss.href = datos.cssUrl;
+                nuevoCss.href = resolverUrlServidor(datos.cssUrl);
+
                 document.head.appendChild(nuevoCss);
             }
 
+            // Limpiar MathJax antes de sustituir el contenido.
             if (window.MathJax && window.MathJax.typesetClear) {
                 window.MathJax.typesetClear([areaDetalle]);
             }
 
+            // Insertar examen.
             areaDetalle.innerHTML = datos.html;
-            
+
             document.querySelector('.grid-temas').style.display = 'none';
             document.querySelector('.contenedor-temas > h2').style.display = 'none';
             document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
-            areaDetalle.classList.remove('oculto');
-            
-            // PROCESADOR DE SCRIPTS MEJORADO (Soporta código interno y archivos src externos)
-            const scriptsInternos = areaDetalle.querySelectorAll('script');
-            scriptsInternos.forEach(scriptViejo => {
-                const scriptNuevo = document.createElement('script');
-                
-                // Si viene de un archivo externo (ej: src="http://localhost:5000/..."), clonamos todos sus atributos
-                if (scriptViejo.src) {
-                    Array.from(scriptViejo.attributes).forEach(attr => {
-                        scriptNuevo.setAttribute(attr.name, attr.value);
-                    });
-                } else {
-                    // Si es lógica inline, copiamos el texto directo
-                    scriptNuevo.text = scriptViejo.text;
-                }
-                
-                document.body.appendChild(scriptNuevo).parentNode.removeChild(scriptNuevo);
-            });
 
+            areaDetalle.classList.remove('oculto');
+
+            // Ejecutar scripts del examen.
+            ejecutarScripts(areaDetalle);
+
+            // Renderizar expresiones matemáticas.
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([areaDetalle])
-                    .catch((err) => console.log("Error renderizando MathJax en Examen: ", err));
+                    .catch(error => {
+                        console.error('Error renderizando MathJax en Examen:', error);
+                    });
             }
 
-        } catch(error) {
-            console.error("Error al cargar el examen:", error);
-            alert("No se pudo cargar el examen de Álgebra Compleja.");
+        } catch (error) {
+            console.error('Error al cargar el examen:', error);
+            alert('No se pudo cargar el examen de Álgebra Compleja.');
         }
     }
+
+    // ============================================================
+    // CARGAR EXPLICACIÓN TEÓRICA DE UN TEMA
+    // ============================================================
 
     async function cargarExplicacionTeorica(idTema) {
         try {
-            const res = await fetch(`http://localhost:5000/api/contenido-tema/${idTema}`);
-            const datos = await res.json();
-            
+            const url = resolverUrlServidor(
+                '/api/contenido-tema/' + encodeURIComponent(idTema)
+            );
+
+            const respuesta = await fetch(url);
+
+            if (!respuesta.ok) {
+                throw new Error('HTTP ' + respuesta.status);
+            }
+
+            const datos = await respuesta.json();
+
             const areaDetalle = document.getElementById('pantalla-detalle-tema');
-            
+
+            // Limpiar MathJax antes de cambiar el contenido.
             if (window.MathJax && window.MathJax.typesetClear) {
                 window.MathJax.typesetClear([areaDetalle]);
             }
 
+            // Insertar explicación teórica.
             areaDetalle.innerHTML = datos.html;
-            
+
             document.querySelector('.grid-temas').style.display = 'none';
             document.querySelector('.contenedor-temas > h2').style.display = 'none';
             document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
-            areaDetalle.classList.remove('oculto');
-            
-            const scriptsInternos = areaDetalle.querySelectorAll('script');
-            scriptsInternos.forEach(scriptViejo => {
-                const scriptNuevo = document.createElement('script');
-                if (scriptViejo.src) {
-                    Array.from(scriptViejo.attributes).forEach(attr => {
-                        scriptNuevo.setAttribute(attr.name, attr.value);
-                    });
-                } else {
-                    scriptNuevo.text = scriptViejo.text;
-                }
-                document.body.appendChild(scriptNuevo).parentNode.removeChild(scriptNuevo);
-            });
 
+            areaDetalle.classList.remove('oculto');
+
+            // Ejecutar scripts del contenido teórico.
+            ejecutarScripts(areaDetalle);
+
+            // Renderizar expresiones matemáticas.
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([areaDetalle])
-                    .catch((err) => console.log("Error renderizando MathJax: ", err));
+                    .catch(error => {
+                        console.error('Error renderizando MathJax:', error);
+                    });
             }
 
-        } catch(e) {
-            console.error("Error al cargar la teoría:", e);
+        } catch (error) {
+            console.error('Error al cargar la teoría:', error);
+            alert('No se pudo cargar el contenido teórico del tema.');
         }
     }
 
+    // ============================================================
+    // REGRESAR A LAS TARJETAS DE TEMAS
+    // ============================================================
+
     function regresarAlasTarjetas() {
-        document.getElementById('pantalla-detalle-tema').classList.add('oculto');
+        const areaDetalle = document.getElementById('pantalla-detalle-tema');
+
+        if (window.MathJax && window.MathJax.typesetClear) {
+            window.MathJax.typesetClear([areaDetalle]);
+        }
+
+        areaDetalle.classList.add('oculto');
+        areaDetalle.innerHTML = '';
+
         document.querySelector('.grid-temas').style.display = 'flex';
         document.querySelector('.contenedor-temas > h2').style.display = 'block';
         document.querySelector('.contenedor-cabecera-temas').style.display = 'flex';
     }
 
+    // ============================================================
+    // REGRESAR A LOS MÓDULOS
+    // ============================================================
+
     function regresarACapitulos() {
         document.getElementById('btn-variable-compleja').click();
     }
-</script>
 
+</script>
