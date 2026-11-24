@@ -16,63 +16,54 @@
 
 <script>
     // ============================================================
-    // CONFIGURACIÓN DE LA API
+    // CONFIGURACIÓN DEL SERVIDOR RENDER
     // ============================================================
 
-    const API_BASE_COMPLEXLAB = 'https://complexlab-servidor.onrender.com';
+    const API_BASE = 'https://complexlab-servidor.onrender.com';
 
-    // Convierte rutas relativas en direcciones completas de Render.
-    function resolverUrlServidor(url) {
-        return new URL(url, API_BASE_COMPLEXLAB).href;
+    // Convierte las rutas relativas o locales en rutas de Render.
+    function obtenerUrlRender(url) {
+        if (!url) return '';
+
+        // Si la dirección ya es absoluta, sustituir localhost por Render.
+        if (/^https?:\/\//i.test(url)) {
+            return url.replace(
+                /^https?:\/\/localhost:5000/i,
+                API_BASE
+            );
+        }
+
+        // Si la ruta es relativa, construirla desde Render.
+        return new URL(url, API_BASE).href;
     }
 
     // ============================================================
-    // PROCESADOR DE SCRIPTS
-    // Permite ejecutar scripts internos y externos del contenido.
+    // CARGAR EXPLICACIÓN TEÓRICA
     // ============================================================
 
-    function ejecutarScripts(area) {
-        const scripts = area.querySelectorAll('script');
-
-        scripts.forEach(scriptViejo => {
-            const scriptNuevo = document.createElement('script');
-
-            // Copiar atributos del script original.
-            Array.from(scriptViejo.attributes).forEach(attr => {
-                if (attr.name === 'src') {
-                    scriptNuevo.src = resolverUrlServidor(attr.value);
-                } else {
-                    scriptNuevo.setAttribute(attr.name, attr.value);
-                }
-            });
-
-            // Copiar código JavaScript interno.
-            if (!scriptViejo.src) {
-                scriptNuevo.textContent = scriptViejo.textContent;
-            }
-
-            // Reemplazar el script para que el navegador lo ejecute.
-            scriptViejo.replaceWith(scriptNuevo);
-        });
+    function redirigirTema(event, idTema) {
+        cargarExplicacionTeorica(idTema);
     }
 
     // ============================================================
-    // MOSTRAR UNA SIMULACIÓN
+    // CARGAR SIMULACIÓN DENTRO DE LA PANTALLA
     // ============================================================
 
     async function irASimulacionTema(event, urlSim) {
         event.stopPropagation();
 
         try {
-            const url = resolverUrlServidor(urlSim);
+            const url = obtenerUrlRender(urlSim);
 
-            const respuesta = await fetch(url);
+            console.log('Solicitando simulación:', url);
 
-            if (!respuesta.ok) {
-                throw new Error('HTTP ' + respuesta.status);
+            const res = await fetch(url);
+
+            if (!res.ok) {
+                throw new Error('HTTP ' + res.status);
             }
 
-            const datos = await respuesta.json();
+            const datos = await res.json();
 
             const areaDetalle = document.getElementById('pantalla-detalle-tema');
 
@@ -82,26 +73,24 @@
                 '</div>' +
                 datos.html;
 
-            // Ocultar las tarjetas y mostrar el contenido.
             document.querySelector('.grid-temas').style.display = 'none';
             document.querySelector('.contenedor-temas > h2').style.display = 'none';
             document.querySelector('.contenedor-cabecera-temas').style.display = 'none';
 
             areaDetalle.classList.remove('oculto');
 
-            // Renderizar expresiones matemáticas.
             if (window.MathJax && window.MathJax.typesetPromise) {
                 await window.MathJax.typesetPromise([areaDetalle]);
             }
 
         } catch (error) {
             console.error('Error al cargar la simulación:', error);
-            alert('No se pudo cargar la simulación. Comprueba la conexión con el servidor.');
+            alert('No se pudo cargar la simulación.');
         }
     }
 
     // ============================================================
-    // FUNCIÓN EXAMEN DE ÁLGEBRA COMPLEJA
+    // FUNCIÓN EXAMEN
     // ============================================================
 
     async function abrirTestProximamente(event) {
@@ -109,7 +98,7 @@
 
         try {
             const respuesta = await fetch(
-                resolverUrlServidor('/api/examen-algebra')
+                obtenerUrlRender('/api/examen-algebra')
             );
 
             if (!respuesta.ok) {
@@ -131,17 +120,15 @@
                 const nuevoCss = document.createElement('link');
                 nuevoCss.id = 'css-examen-algebra';
                 nuevoCss.rel = 'stylesheet';
-                nuevoCss.href = resolverUrlServidor(datos.cssUrl);
+                nuevoCss.href = obtenerUrlRender(datos.cssUrl);
 
                 document.head.appendChild(nuevoCss);
             }
 
-            // Limpiar MathJax antes de sustituir el contenido.
             if (window.MathJax && window.MathJax.typesetClear) {
                 window.MathJax.typesetClear([areaDetalle]);
             }
 
-            // Insertar examen.
             areaDetalle.innerHTML = datos.html;
 
             document.querySelector('.grid-temas').style.display = 'none';
@@ -150,14 +137,31 @@
 
             areaDetalle.classList.remove('oculto');
 
-            // Ejecutar scripts del examen.
-            ejecutarScripts(areaDetalle);
+            // Procesar scripts internos y externos.
+            const scriptsInternos = areaDetalle.querySelectorAll('script');
 
-            // Renderizar expresiones matemáticas.
+            scriptsInternos.forEach(scriptViejo => {
+                const scriptNuevo = document.createElement('script');
+
+                Array.from(scriptViejo.attributes).forEach(attr => {
+                    if (attr.name === 'src') {
+                        scriptNuevo.src = obtenerUrlRender(attr.value);
+                    } else {
+                        scriptNuevo.setAttribute(attr.name, attr.value);
+                    }
+                });
+
+                if (!scriptViejo.src) {
+                    scriptNuevo.textContent = scriptViejo.textContent;
+                }
+
+                scriptViejo.replaceWith(scriptNuevo);
+            });
+
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([areaDetalle])
-                    .catch(error => {
-                        console.error('Error renderizando MathJax en Examen:', error);
+                    .catch(err => {
+                        console.error('Error renderizando MathJax en Examen:', err);
                     });
             }
 
@@ -173,26 +177,24 @@
 
     async function cargarExplicacionTeorica(idTema) {
         try {
-            const url = resolverUrlServidor(
+            const url = obtenerUrlRender(
                 '/api/contenido-tema/' + encodeURIComponent(idTema)
             );
 
-            const respuesta = await fetch(url);
+            const res = await fetch(url);
 
-            if (!respuesta.ok) {
-                throw new Error('HTTP ' + respuesta.status);
+            if (!res.ok) {
+                throw new Error('HTTP ' + res.status);
             }
 
-            const datos = await respuesta.json();
+            const datos = await res.json();
 
             const areaDetalle = document.getElementById('pantalla-detalle-tema');
 
-            // Limpiar MathJax antes de cambiar el contenido.
             if (window.MathJax && window.MathJax.typesetClear) {
                 window.MathJax.typesetClear([areaDetalle]);
             }
 
-            // Insertar explicación teórica.
             areaDetalle.innerHTML = datos.html;
 
             document.querySelector('.grid-temas').style.display = 'none';
@@ -201,14 +203,31 @@
 
             areaDetalle.classList.remove('oculto');
 
-            // Ejecutar scripts del contenido teórico.
-            ejecutarScripts(areaDetalle);
+            // Procesar scripts internos y externos.
+            const scriptsInternos = areaDetalle.querySelectorAll('script');
 
-            // Renderizar expresiones matemáticas.
+            scriptsInternos.forEach(scriptViejo => {
+                const scriptNuevo = document.createElement('script');
+
+                Array.from(scriptViejo.attributes).forEach(attr => {
+                    if (attr.name === 'src') {
+                        scriptNuevo.src = obtenerUrlRender(attr.value);
+                    } else {
+                        scriptNuevo.setAttribute(attr.name, attr.value);
+                    }
+                });
+
+                if (!scriptViejo.src) {
+                    scriptNuevo.textContent = scriptViejo.textContent;
+                }
+
+                scriptViejo.replaceWith(scriptNuevo);
+            });
+
             if (window.MathJax && window.MathJax.typesetPromise) {
                 window.MathJax.typesetPromise([areaDetalle])
-                    .catch(error => {
-                        console.error('Error renderizando MathJax:', error);
+                    .catch(err => {
+                        console.error('Error renderizando MathJax:', err);
                     });
             }
 
@@ -223,14 +242,7 @@
     // ============================================================
 
     function regresarAlasTarjetas() {
-        const areaDetalle = document.getElementById('pantalla-detalle-tema');
-
-        if (window.MathJax && window.MathJax.typesetClear) {
-            window.MathJax.typesetClear([areaDetalle]);
-        }
-
-        areaDetalle.classList.add('oculto');
-        areaDetalle.innerHTML = '';
+        document.getElementById('pantalla-detalle-tema').classList.add('oculto');
 
         document.querySelector('.grid-temas').style.display = 'flex';
         document.querySelector('.contenedor-temas > h2').style.display = 'block';
@@ -244,5 +256,4 @@
     function regresarACapitulos() {
         document.getElementById('btn-variable-compleja').click();
     }
-
 </script>
